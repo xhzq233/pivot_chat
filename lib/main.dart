@@ -14,5 +14,3 @@ void main() {
   logger.i('main.dart - main() - runApp');
   runApp(const PCApp());
 }
-
-

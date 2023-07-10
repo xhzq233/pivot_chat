@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  build-mobile:
+    name: Android, iOS
+
+    # This job will run on macOS virtual machine
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "18.x"
+
+      - name: Install flutter
+        uses: subosito/flutter-action@v2.10.0
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Cache Flutter dependencies (Mac host)
+        id: cache_flutter
+        uses: actions/cache@v3
+        with:
+          path: /Users/runner/hostedtoolcache/flutter
+          key: ${{ runner.os }}-flutter
+
+      - name: Cache Flutter Packages (Mac host)
+        uses: actions/cache@v3
+        with:
+          path: /Users/runner/.pub-cache
+          key: ${{ runner.os }}-flutter-pub-cache
+
+      - name: Cache Gradle dependencies (Android)
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build
+        run: |
+          flutter build apk --split-per-abi
+          flutter build appbundle
+          flutter build ios --no-codesign
+          cd build/ios/iphoneos
+          mkdir Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
+
+      - name: Push to Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/flutter-apk/*,build/ios/iphoneos/app.ipa,build/app/outputs/bundle/release/app-release.aab"
+          tag: ${{ vars.VERSION }}
+          token: ${{ secrets.WORKFLOW_TOKEN }}

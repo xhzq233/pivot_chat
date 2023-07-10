@@ -66,29 +66,10 @@ let's start coding🚀!
 modules/widget: 更加通用的组件，可跨项目使用，俗称**轮子**，自己按照功能命名
 modules/util: 同上
 
-## 项目规范
+## 代码规范
 
-### 文件命名
 
-- 文件名使用小写字母，单词之间使用下划线分割，并且将其主要类名写全，如：`image_cache_manaer.dart`
-- 类名使用大驼峰命名法，如：`ImageCacheManager`
-- 文件内私有const/final变量，以`_`开头，如：`const _kDefaultImageSize = 100.0;`，其中加k前缀代表`Key`，注意判断该变量是否需要其他地方使用，需要使用的话就不要加`_`前缀，并且要归类到`constants.dart`文件中
-
-### 代码规范
-
-- 代码缩进使用2个空格
-- 要换行的地方，必须加上comma `,`，如：
-
-```dart
-PCNetworkImage(
-  imageUrl: 'https://picsum.photos/250?image=9',
-  width: 100,
-  height: 100,
-),
-
-// or else
-PCNetworkImage(imageUrl: 'https://picsum.photos/250?image=9', width: 100, height: 100)
-```
+参考[https://dart.cn/guides/language/effective-dart/style](https://dart.cn/guides/language/effective-dart/style)
 
 ### log规范
 
@@ -109,7 +90,6 @@ PCNetworkImage(imageUrl: 'https://picsum.photos/250?image=9', width: 100, height
 - TAG
 - 注意区分等级verbose/debug/info/warning/error 每一级都有自己的作用，其中verbose和debug发布时不会输出，所以仅本地调试的日志一定不能高于info级别
 - catch的error信息一定要带上exception以及堆栈
-- 不要打大片大片的日志（例如把后台返回的复杂json直接输出并不合适，会非常影响查问题的体验）
 
 ### Debug
 
@@ -117,7 +97,7 @@ PCNetworkImage(imageUrl: 'https://picsum.photos/250?image=9', width: 100, height
 - 尽量使用assert来保证你所认为的代码的正确性，例如：
 
 ```dart
-// here i assume the image size must be greater than 0
+// Here I assume the image size should be greater than 0
 assert(_kDefaultImageSize > 0);
 ```
 

@@ -2,12 +2,13 @@ name: Release
 
 on:
   push:
-    branches:
-      - release/*
+    branches: [ "main" ]
+    paths:
+      - "lib/**"
 
 jobs:
   build-mobile:
-    name: Android, iOS
+    name: Build Android, iOS
 
     # This job will run on macOS virtual machine
     runs-on: macos-latest

@@ -46,3 +46,6 @@ app.*.map.json
 
 # Dart part files
 **/*.g.dart
+
+# secrets
+secrets

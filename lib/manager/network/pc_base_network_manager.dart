@@ -13,7 +13,7 @@ part 'network_interceptor.dart';
 
 const baseUrl = kReleaseMode ? '' : '';
 
-abstract class PCBaseNetworkManager  {
+abstract class PCBaseNetworkManager {
   TokenGetter get tokenGetter;
 
   final _dio = Dio(BaseOptions(

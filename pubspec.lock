@@ -835,7 +835,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: ba5bdcba8cabf7e9a7c6b4ce816ce8cbb44e033f
-      url: "git@github.com:xhzq233/utils.git"
+      url: "https://github.com/xhzq233/utils.git"
     source: git
     version: "0.0.1"
   uuid:

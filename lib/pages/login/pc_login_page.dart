@@ -15,6 +15,22 @@ class PCLoginPage extends StatelessWidget {
         itemCount: sourceBloc.state.length,
         itemBuilder: (context, index) {
           final item = sourceBloc.state[index];
+          if (index == 0) {
+            // big avatar
+            return ListTile(
+              key: ValueKey(item),
+              title: Text(item.name),
+              subtitle: Text(item.email),
+              leading: CircleAvatar(
+                child: Text(item.name.substring(0, 1)),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => sourceBloc.decrement(item),
+              ),
+              selected: true,
+            );
+          }
           return ListTile(
             key: ValueKey(item),
             title: Text(item.name),
@@ -25,7 +41,7 @@ class PCLoginPage extends StatelessWidget {
             trailing: IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () => sourceBloc.decrement(item),
-            )
+            ),
           );
         },
       ),

@@ -46,7 +46,7 @@ class PCLoginSourceBloc extends Cubit<List<PCLocalAccount>> {
 
     if (newIndex == 0) {
       // the first
-
+      accountManager.setMainAccount(account);
     }
     emit(newState);
   }

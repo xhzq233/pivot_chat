@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:utils/logger.dart';
 
 final spManager = PCSPManager._();
 
@@ -10,8 +11,8 @@ class PCSPManager {
   late final Box<String> _box;
 
   Future<void> init() async {
-    await Hive.initFlutter();
     _box = await Hive.openBox(_kBoxName);
+    logger.d('Init PCSPManager, values: ${_box.values}');
   }
 
   Future<void> clear() async {
@@ -35,7 +36,20 @@ class PCSPManager {
     if (null == val) {
       return null;
     } else {
-      return val as T;
+      if (T == String) {
+        return val as T;
+      } else if (T == int) {
+        return int.parse(val) as T;
+      } else if (T == double) {
+        return double.parse(val) as T;
+      } else if (T == bool) {
+        return (val == 'true') as T;
+      } else if (T == List<String>) {
+        return val.split(',') as T;
+      } else {
+        logger.w('Unsupported type: $T');
+        return null;
+      }
     }
   }
 

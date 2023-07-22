@@ -1,0 +1,3 @@
+mixin TokenGetter {
+  String? getToken();
+}

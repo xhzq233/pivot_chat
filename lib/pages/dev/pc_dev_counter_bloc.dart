@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PCCounterCubit extends Cubit<int> {
-  PCCounterCubit() : super(0);
+class PCDevBloc extends Cubit<int> {
+  PCDevBloc({int? initial}) : super(initial ?? 0);
 
   void increment() => emit(state + 1);
   void decrement() => emit(state - 1);

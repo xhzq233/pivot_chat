@@ -42,7 +42,7 @@ let's start coding🚀!
 - 统一使用[cached_network_image](https://pub.dev/packages/cached_network_image)
   作为网络图片加载框架，本地图片资源尽量使用svg格式（可以和设计提出），使用[flutter_svg](https://pub.dev/packages/flutter_svg)
   作为svg加载框架
-- 数据库暂不考虑，如果使用可以考虑[hive](https://pub.dev/packages/hive)
+- 简易数据库/key-value存储[hive](https://pub.dev/packages/hive)
 - 使用[flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager)作为缓存框架
 
 ## 项目结构
@@ -64,6 +64,7 @@ let's start coding🚀!
 > module模板
 
 modules/widget: 更加通用的组件，可跨项目使用，俗称**轮子**，自己按照功能命名
+
 modules/util: 同上
 
 ## 项目规范

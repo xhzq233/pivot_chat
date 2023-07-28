@@ -1,0 +1,162 @@
+{
+  "main": {
+    "id": "8f024042d01ce518",
+    "type": "split",
+    "children": [
+      {
+        "id": "690c80ccd2c519e7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "08cf9e2fd10b72fe",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "README.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "188241e08c646a9d",
+    "type": "split",
+    "children": [
+      {
+        "id": "23ea41bc8ad051c2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5899f5d43cb4d12f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "2c8410bdeb16e833",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "3927139a40c41482",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "49701767ff45a703",
+    "type": "split",
+    "children": [
+      {
+        "id": "c9a80d3c7806edf3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "13137976e17f0517",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "README.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "2c769240da2470ab",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "README.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "dc60b1d84e5057e4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "3f61b91451859c74",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "README.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "08cf9e2fd10b72fe",
+  "lastOpenFiles": [
+    "build/8d85a055",
+    "build/5f7098b1",
+    "build/7e4a6699a3f7f14998ab0a495c277b21.cache.dill.track.dill",
+    "build/app/outputs/flutter-apk/app-debug.apk.sha1",
+    "build/app/outputs/flutter-apk/app-debug.apk",
+    "build/app/outputs/flutter-apk",
+    "build/app/intermediates/apk_ide_redirect_file/debug/redirect.txt",
+    "build/app/intermediates/apk_ide_redirect_file/debug",
+    "build/app/intermediates/apk_ide_redirect_file",
+    "build/app/outputs/apk/debug/output-metadata.json",
+    "build/app/intermediates/incremental/packageDebug/tmp/debug/zip-cache/androidResources"
+  ]
+}

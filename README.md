@@ -53,10 +53,12 @@ let's start coding🚀!
 - lib/widget: 通用组件，以**PC**开头，代表Pivot Chat，如PCNetworkImage
 - lib/manager: 通用管理类，以**PC**开头，如PCImageCacheManager
 - lib/util: 通用工具类，以**PC**开头，如PCImageUtil
-- lib/pages/xxx: 页面，以**PC**开头，如PCLoginPage
-  - lib/pages/xxx/bloc: 页面的bloc，以**PC**开头，如PCLoginPageBloc
-  - lib/pages/xxx/model: 页面的model，以**PC**开头，如PCLoginModel
-  - lib/pages/xxx/widget: 页面的组件，一般不需要导出，以`_`开头，如\_PCLoginButton，以part形式导入到page.dart中
+- lib/pages/xxx: 各个页面以及各自需要的私有model
+> Note: 以下为示例
+- lib/pages/login: 页面，以**PC**开头，类名为PCLoginPage
+  - lib/pages/login/pc_login_page.dart: 页面的bloc
+  - lib/pages/login/pc_login_model.dart: 页面的model，如PCLoginModel
+  - lib/pages/login/widgets/xxx_widget.dart: 页面的组件，一般不需要导出，以`_`开头，如\_PCLoginButton，以part形式导入到page.dart中
 
 
 ### WIP

@@ -30,6 +30,7 @@ let's start coding🚀!
 
 ## Dependencies
 
+- IM框架[flutter_openim_sdk](https://pub.dev/packages/flutter_openim_sdk)
 - 使用[go_router](https://pub.dev/packages/go_router)作为路由框架
 - 使用[flutter_bloc](https://pub.dev/packages/flutter_bloc)作为状态管理框架
 - 使用[dio](https://pub.dev/packages/dio)作为网络请求框架

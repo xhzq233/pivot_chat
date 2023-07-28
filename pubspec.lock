@@ -318,6 +318,14 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "2.0.2"
+  flutter_openim_sdk:
+    dependency: "direct main"
+    description:
+      name: flutter_openim_sdk
+      sha256: "5758f762c9bea4aae9d042dd196678e497cb4a73057fbbf299cde02e4c2579d1"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "3.0.0"
   flutter_screenutil:
     dependency: "direct main"
     description:

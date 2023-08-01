@@ -1,4 +1,4 @@
-// lib/pages/home/model.dart
+// lib/pages/home/pc_home_page_model.dart
 final List<Contact> contacts = [
   Contact(name: 'Alice', avatarUrl: 'https://example.com/alice.png'),
   Contact(name: 'Bob', avatarUrl: 'https://example.com/bob.png'),

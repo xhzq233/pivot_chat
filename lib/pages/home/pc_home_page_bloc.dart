@@ -1,6 +1,7 @@
-// lib/pages/home/bloc.dart
+// lib/pages/home/pc_home_page_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'model.dart';
+
+import 'pc_home_page_model.dart';
 
 // 定义事件
 class ContactsEvent {}

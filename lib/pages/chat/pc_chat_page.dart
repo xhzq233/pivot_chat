@@ -41,7 +41,7 @@ class _PCChatPageState extends State<PCChatPage> {
 
   void _deleteMessage(int index) {
     setState(() {
-      _bloc.deleteMessage(index);
+      _bloc.deleteMessage(index, widget.contact.name);
     });
   }
 

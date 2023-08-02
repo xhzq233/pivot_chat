@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:pivot_chat/pages/home/pc_home_page_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pc_chat_page_model.dart';
 
@@ -30,9 +29,9 @@ class ChatBloc {
     }
   }
 
-  void deleteMessage(int index) {
+  void deleteMessage(int index, String friendName) {
     initMessage.removeAt(index);
-    _saveMessages(contacts as String);
+    _saveMessages(friendName);
     _messagesController.sink.add(initMessage);
   }
 

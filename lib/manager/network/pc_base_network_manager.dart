@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:pivot_chat/manager/network/http_method_type.dart';
-import 'package:pivot_chat/util/pc_logger.dart';
+import 'package:pivot_chat/manager/network/token_getter.dart';
+import 'package:utils/logger.dart';
 
 import 'http_model_decoder.dart';
 
@@ -13,6 +14,8 @@ part 'network_interceptor.dart';
 const baseUrl = kReleaseMode ? '' : '';
 
 abstract class PCBaseNetworkManager {
+  TokenGetter get tokenGetter;
+
   final _dio = Dio(BaseOptions(
     baseUrl: baseUrl,
     responseType: ResponseType.json,
@@ -21,10 +24,16 @@ abstract class PCBaseNetworkManager {
     ..interceptors.add(_CustomInterceptors());
 
   Options _createOptions(HttpMethodType type, Options? options) {
-    if (null != options) {
-      return options.copyWith(method: type.name);
+    final token = tokenGetter.getToken();
+    final Map<String, String> headers = {};
+    if (token == null) {
+    } else {
+      headers['token'] = token;
     }
-    return Options(method: type.name);
+    if (null != options) {
+      return options.copyWith(method: type.name, headers: headers);
+    }
+    return Options(method: type.name, headers: headers);
   }
 
   Future<T?> sendRequest<T>(

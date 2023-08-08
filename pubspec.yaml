@@ -16,10 +16,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 0.0.1+2
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.0.3 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,13 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  utils:
+    git: https://github.com/xhzq233/utils.git
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   dio: ^5.2.1+1
-  flutter_easyrefresh: ^2.2.2
+  easy_refresh: ^3.3.2+1
   flutter_screenutil: ^5.8.4
   flutter_smart_dialog: ^4.9.3+1
   cached_network_image: ^3.2.3
@@ -45,6 +47,9 @@ dependencies:
   go_router: ^9.0.3
   flutter_bloc: ^8.1.3
   json_annotation: ^4.8.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+#  flutter_openim_sdk: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +63,10 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   json_serializable: ^6.7.1
   build_runner: ^2.4.6
+  flutter_launcher_icons: ^0.13.1
+  hive_generator: ^2.0.0
+  bubble: ^1.2.1
+  shared_preferences: ^2.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -86,12 +95,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-     - family: myIcon   # 指定一个字体名字
-       fonts:
-          - asset: fonts/iconfont.ttf
-
-
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

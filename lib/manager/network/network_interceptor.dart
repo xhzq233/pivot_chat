@@ -13,7 +13,7 @@ class _CustomInterceptors extends Interceptor {
   }
 
   @override
-  void onResponse(Response<dynamic>  response, ResponseInterceptorHandler handler) {
+  void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     logger.i('RESPONSE[${response.statusCode}] <= PATH: ${response.requestOptions.path} DATA: ${response.data}');
     SmartDialog.dismiss(status: SmartStatus.loading);
     super.onResponse(response, handler);

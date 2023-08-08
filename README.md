@@ -42,7 +42,7 @@ let's start coding🚀!
 - 统一使用[cached_network_image](https://pub.dev/packages/cached_network_image)
   作为网络图片加载框架，本地图片资源尽量使用svg格式（可以和设计提出），使用[flutter_svg](https://pub.dev/packages/flutter_svg)
   作为svg加载框架
-- 数据库暂不考虑，如果使用可以考虑[hive](https://pub.dev/packages/hive)
+- 简易数据库/key-value存储[hive](https://pub.dev/packages/hive)
 - 使用[flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager)作为缓存框架
 
 ## 项目结构
@@ -64,6 +64,7 @@ let's start coding🚀!
 > module模板
 
 modules/widget: 更加通用的组件，可跨项目使用，俗称**轮子**，自己按照功能命名
+
 modules/util: 同上
 
 ## 项目规范
@@ -91,6 +92,12 @@ PCNetworkImage(imageUrl: 'https://picsum.photos/250?image=9', width: 100, height
 ```
 
 ### log规范
+
+#### 什么地方应该打日志？
+
+- 业务关键路径，例如支付流程中，用户点击支付请求->客户端请求Apple支付->Apple回调请求结果->请求业务后台->业务后台回包->调用苹果服务完成支付，这里的每一步都应该打日志（并且需要带上关键的参数），这样才能在用户反馈问题的时候快速缩小排查范围（例如发现后台回包报错，在确认请求体没有问题的情况下可以快速交给后台排查），在满足下面要求的前提下日志点越丰富越好。
+- 复杂逻辑实现中，例如输入框的状态转换
+- 用户行为操作，例如点击按钮、切换语言、退出登录等等，建议把所有用户操作点击行为触发处都加上日志，可以复现用户操作步骤，从而本地复现问题（双击、快速切换之类的问题；“明明没有删除”之类的问题）
 
 #### 什么地方不应该打日志？
 

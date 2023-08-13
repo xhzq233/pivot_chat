@@ -4,7 +4,7 @@ import 'pc_chat_page_model.dart';
 
 class ChatBloc {
   final StreamController<List<ChatMessage>> _messagesController =
-  StreamController<List<ChatMessage>>.broadcast();
+      StreamController<List<ChatMessage>>.broadcast();
 
   List<ChatMessage> initMessage = [];
 

@@ -49,7 +49,8 @@ mixin PCBaseBoxManager<Key, T> {
   bool get isEmpty => _box.isEmpty;
 }
 
-extension PCBaseBoxManagerExt<T extends Identifable<Key>, Key> on PCBaseBoxManager<Key, T> {
+extension PCBaseBoxManagerExt<T extends Identifable<Key>, Key>
+    on PCBaseBoxManager<Key, T> {
   void put(T? val) {
     if (val == null) {
       logger.w('Try to put null $T');

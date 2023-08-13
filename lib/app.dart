@@ -13,7 +13,7 @@ class PCApp extends StatelessWidget {
     return MaterialApp.router(
       theme: lightThemeData,
       title: 'Pivot Chat',
-      routerConfig: route,
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       // 统一为 iOS 风格的滑动效果
       scrollBehavior: const CupertinoScrollBehavior(),

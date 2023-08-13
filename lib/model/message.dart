@@ -56,9 +56,11 @@ class PCMessage with Identifable<String> {
     this.repTo,
   );
 
-  static final nothingHere = PCMessage(0, 'nothing here', DateTime.fromMillisecondsSinceEpoch(0), 0, 0, kMTPlain, 0);
+  static final nothingHere = PCMessage(0, 'nothing here',
+      DateTime.fromMillisecondsSinceEpoch(0), 0, 0, kMTPlain, 0);
 
-  factory PCMessage.fromJson(Map<String, dynamic> json) => _$PCMessageFromJson(json);
+  factory PCMessage.fromJson(Map<String, dynamic> json) =>
+      _$PCMessageFromJson(json);
 
   //sender服务器那边有，time和id在存数据库时提供
   Map<String, dynamic> toJson() => _$PCMessageToJson(this);
@@ -88,7 +90,8 @@ class PCMessagesChunk {
   @JsonKey(name: 'max_seq')
   final int maxSeq;
 
-  factory PCMessagesChunk.fromJson(Map<String, dynamic> json) => _$PCMessagesChunkFromJson(json);
+  factory PCMessagesChunk.fromJson(Map<String, dynamic> json) =>
+      _$PCMessagesChunkFromJson(json);
 
   //sender服务器那边有，time和id在存数据库时提供
   Map<String, dynamic> toJson() => _$PCMessagesChunkToJson(this);

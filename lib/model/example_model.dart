@@ -15,7 +15,8 @@ class PCExampleModel with PCBaseModel {
   @JsonKey(defaultValue: 'world')
   final String hello;
 
-  factory PCExampleModel.fromJson(Map<String, dynamic> json) => _$PCExampleModelFromJson(json);
+  factory PCExampleModel.fromJson(Map<String, dynamic> json) =>
+      _$PCExampleModelFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$PCExampleModelToJson(this);

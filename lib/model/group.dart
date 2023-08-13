@@ -49,7 +49,8 @@ class PCGroup with Identifable<int> {
     this.maxSeq,
   );
 
-  factory PCGroup.fromJson(Map<String, dynamic> json) => _$PCGroupFromJson(json);
+  factory PCGroup.fromJson(Map<String, dynamic> json) =>
+      _$PCGroupFromJson(json);
 
   Map<String, dynamic> toJson() => _$PCGroupToJson(this);
 }

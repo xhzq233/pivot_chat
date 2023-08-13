@@ -13,27 +13,41 @@ class _PCHomePageState extends State<PCHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Column(
+        leading: Row(
           children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(
-                'https://th.bing.com/th/id/OIP.bHkgQ4WJ2zMc1aSED9ya_gHaHa?pid=ImgDet&rs=1',
-              ),
-              radius: 18,
-            ),
-            SizedBox(width: 8),
-            // Adjust the width of the SizedBox for the desired spacing
             Container(
-              padding: EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
+              height: 80.0,
+              width: 50.0,
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 10.0,
+                    child:  CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      'https://th.bing.com/th/id/OIP.bHkgQ4WJ2zMc1aSED9ya_gHaHa?pid=ImgDet&rs=1',
+                    ),
+                    radius: 20,
+                  ),),
+                  // SizedBox(width: 8),
+                  // Adjust the width of the SizedBox for the desired spacing
+                  Positioned(
+                    bottom: 0.0,
+                    left: 3.0,
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        'ID: U2099  ',
+                        style: TextStyle(fontSize: 8, color: Colors.purple[80]),
+                      ),
+                    ),
+                  )
+                ],
               ),
-              child: Text(
-                'ID: 1234',
-                style: TextStyle(fontSize: 12, color: Colors.purple[80]),
-              ),
-            ),
+            )
           ],
         ),
         actions: [
@@ -54,8 +68,9 @@ class _PCHomePageState extends State<PCHomePage> {
           ),
         ],
       ),
-
-
+      drawer: Drawer(
+        child: Text("this is a test"),
+      ),
       body: Center(
         child: ListView.builder(
           itemCount: contacts.length,
@@ -83,7 +98,7 @@ class _PCHomePageState extends State<PCHomePage> {
                       backgroundImage: NetworkImage(contact.avatarUrl),
                       radius: 30,
                     ),
-                    title: Text("${contact.name}" + "${index+1}"),
+                    title: Text("${contact.name}"),
                     subtitle: Text("这是啥"),
                   ),
                 ),

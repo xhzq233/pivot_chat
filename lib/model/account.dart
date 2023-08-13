@@ -18,9 +18,14 @@ class PCLocalAccount extends PCAccount {
   @HiveField(4)
   int rememberPasswd;
 
-  PCLocalAccount({required super.name, required super.id, required super.email, required this.rememberPasswd});
+  PCLocalAccount(
+      {required super.name,
+      required super.id,
+      required super.email,
+      required this.rememberPasswd});
 
-  factory PCLocalAccount.fromJson(Map<String, dynamic> map) => _$PCLocalAccountFromJson(map);
+  factory PCLocalAccount.fromJson(Map<String, dynamic> map) =>
+      _$PCLocalAccountFromJson(map);
 
   @override
   Map<String, dynamic> toJson() => _$PCLocalAccountToJson(this);
@@ -31,9 +36,14 @@ class PCGroupAccount extends PCAccount {
   @JsonKey(name: 'type_in_group')
   int standing;
 
-  PCGroupAccount({required super.name, required super.id, required super.email, required this.standing});
+  PCGroupAccount(
+      {required super.name,
+      required super.id,
+      required super.email,
+      required this.standing});
 
-  factory PCGroupAccount.fromJson(Map<String, dynamic> map) => _$PCGroupAccountFromJson(map);
+  factory PCGroupAccount.fromJson(Map<String, dynamic> map) =>
+      _$PCGroupAccountFromJson(map);
 
   @override
   Map<String, dynamic> toJson() => _$PCGroupAccountToJson(this);
@@ -41,7 +51,8 @@ class PCGroupAccount extends PCAccount {
 
 @JsonSerializable()
 class PCAccount with PCBaseModel, Identifable<int> {
-  static const unknownAccount = PCAccount(name: 'unknown', id: -1, email: 'None');
+  static const unknownAccount =
+      PCAccount(name: 'unknown', id: -1, email: 'None');
   @override
   @JsonKey(name: 'user_id')
   @HiveField(0)
@@ -62,7 +73,8 @@ class PCAccount with PCBaseModel, Identifable<int> {
     required this.email,
   });
 
-  factory PCAccount.fromJson(Map<String, dynamic> map) => _$PCAccountFromJson(map);
+  factory PCAccount.fromJson(Map<String, dynamic> map) =>
+      _$PCAccountFromJson(map);
 
   @override
   Map<String, dynamic> toJson() => _$PCAccountToJson(this);

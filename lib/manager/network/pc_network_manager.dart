@@ -14,7 +14,8 @@ class PCNetworkManager extends PCBaseNetworkManager {
   }
 
   /// example
-  Future<PCExampleModel?> getExample() => sendRequest(HttpMethodType.get, '/example', PCExampleModel.fromJson);
+  Future<PCExampleModel?> getExample() =>
+      sendRequest(HttpMethodType.get, '/example', PCExampleModel.fromJson);
 
   Future<Map<String, Object>?> setExample(PCExampleModel model) => sendRequest(
         HttpMethodType.post,

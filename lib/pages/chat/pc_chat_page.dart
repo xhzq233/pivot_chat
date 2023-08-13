@@ -74,7 +74,10 @@ class _PCChatPageState extends State<PCChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.contact.name),
+        title: Text(
+          widget.contact.name,
+          style: TextStyle(color: Colors.amber),
+        ),
         centerTitle: true,
       ),
       body: Column(
@@ -102,7 +105,8 @@ class _PCChatPageState extends State<PCChatPage> {
                             alignment: Alignment.centerRight,
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.7, // 设置文本的最大宽度
+                                maxWidth: MediaQuery.of(context).size.width *
+                                    0.7, // 设置文本的最大宽度
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(9.0),
@@ -183,7 +187,6 @@ class _PCChatPageState extends State<PCChatPage> {
               ),
             ),
           ),
-
         ],
       ),
     );

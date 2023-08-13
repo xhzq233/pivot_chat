@@ -43,7 +43,8 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
         final contacts = [
           Contact(name: 'Alice', avatarUrl: 'https://example.com/alice.png'),
           Contact(name: 'Bob', avatarUrl: 'https://example.com/bob.png'),
-          Contact(name: 'Charlie', avatarUrl: 'https://example.com/charlie.png'),
+          Contact(
+              name: 'Charlie', avatarUrl: 'https://example.com/charlie.png'),
         ];
         yield ContactsLoaded(contacts);
       } catch (error) {

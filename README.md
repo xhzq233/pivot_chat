@@ -31,8 +31,7 @@ let's start coding🚀!
 ## Dependencies
 
 - IM框架[flutter_openim_sdk](https://pub.dev/packages/flutter_openim_sdk)
-- 使用[go_router](https://pub.dev/packages/go_router)作为路由框架
-- 使用[flutter_bloc](https://pub.dev/packages/flutter_bloc)作为状态管理框架
+- 使用[Provider](https://pub.dev/packages/provider)作为状态管理框架
 - 使用[dio](https://pub.dev/packages/dio)作为网络请求框架
 - 使用[build_runner](https://pub.dev/packages/build_runner)
   作为代码生成工具，主要是用于json序列化，配合[json_serializable](https://pub.dev/packages/json_serializable)
@@ -51,24 +50,12 @@ let's start coding🚀!
 - lib/theme.dart：主题配置，设计给出
 - lib/assets.dart：资源文件，包括图片、颜色、字体等，如
   `const kPCLogo = 'assets/images/logo.png'`
-- lib/widget: 通用组件，以**PC**开头，代表Pivot Chat，如PCNetworkImage
-- lib/manager: 通用管理类，以**PC**开头，如PCImageCacheManager
-- lib/util: 通用工具类，以**PC**开头，如PCImageUtil
 - lib/pages/xxx: 各个页面以及各自需要的私有model
+> 加前缀的原因是避免命名冲突与辨识度。
 > Note: 以下为示例
-- lib/pages/login: 页面，以**PC**开头，类名为PCLoginPage
-  - lib/pages/login/pc_login_page.dart: 页面的bloc
-  - lib/pages/login/pc_login_model.dart: 页面的model，如PCLoginModel
-  - lib/pages/login/widgets/xxx_widget.dart: 页面的组件，一般不需要导出，以`_`开头，如\_PCLoginButton，以part形式导入到page.dart中
-
-
-### WIP
-
-> module模板
-
-modules/widget: 更加通用的组件，可跨项目使用，俗称**轮子**，自己按照功能命名
-
-modules/util: 同上
+> - lib/pages/dev/dev_page.dart: 页面，类名为LoginPage
+> - lib/pages/dev/dev_vm.dart: ViewModel
+> - lib/pages/dev/xxx_widget.dart: 页面的组件，一般不需要导出，以`_`开头，如\_LoginButton，以part形式导入到page.dart中
 
 ## 项目规范
 

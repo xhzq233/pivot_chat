@@ -1,46 +1,88 @@
+import 'package:framework/list.dart';
 import 'package:hive/hive.dart';
-import 'package:pivot_chat/model/identifable.dart';
-import 'package:utils/logger.dart';
+import 'package:framework/logger.dart';
 
-mixin PCBaseBoxManager<Key, T> {
-  late final Box<T> _box;
+abstract mixin class BaseCURD<Key, ItemType> {
+  /// Provides all items.
+  Iterable<ItemType> get values;
 
-  final String kBoxName = T.toString();
+  /// Get [item] by [key].
+  ItemType? get(Key key);
+
+  /// Saves an [item] with auto increment key.
+  ///
+  /// If a [item] with the same key already exists, it will be replaced.
+  Future<void> add(ItemType item);
+
+  /// Update the [item] with the given [key].
+  ///
+  /// If [item] is null, the [item] with the given [key] is deleted.
+  /// Throwing error when [key] not found.
+  Future<void> update(Key key, ItemType? item);
+
+  /// Deletes the `item` with the given id.
+  ///
+  /// If no `item` with the given id exists, a error is thrown.
+  Future<void> delete({Key? key});
+}
+
+abstract mixin class PCBaseBoxManager<Key, ItemType> implements BaseCURD<Key, ItemType> {
+  static const tag = 'BOX';
+
+  late final Box<ItemType> _box;
+
+  final String kBoxName = ItemType.toString();
 
   bool opened = false;
 
   Future<void> init() async {
-    logger.i('Init $T');
+    logger.i(tag, 'Init $runtimeType<$ItemType>');
     if (opened) {
       return;
     }
-    _box = await Hive.openBox<T>(kBoxName);
+    _box = await Hive.openBox<ItemType>(kBoxName);
     opened = true;
   }
 
-  void remove([Key? key]) {
+  @override
+  Future<void> delete({Key? key}) async {
     if (key == null) {
-      logger.d('RemoveAll $T');
-      _box.clear();
+      logger.i(tag, 'RemoveAll $ItemType');
+      await _box.clear();
     } else {
-      logger.d('Remove $T by key: $key');
-      _box.delete(key);
+      logger.i(tag, 'Remove $ItemType by key: $key');
+      await _box.delete(key);
     }
   }
 
-  T? get(Key? key) {
-    if (key == null) {
-      logger.w('Try to get null $T');
-      return null;
-    }
+  @override
+  Future<void> add(ItemType item) {
+    logger.i(tag, 'Add $ItemType: $item');
+    return _box.add(item);
+  }
+
+  @override
+  ItemType? get(Key key) {
     final res = _box.get(key);
-    logger.d('Get $T: $res by key: $key');
+    logger.i(tag, 'Get $ItemType: $res by key: $key');
     return res;
   }
 
-  Iterable<T> getAll() {
+  @override
+  Future<void> update(Key key, ItemType? item) {
+    if (item != null) {
+      logger.i(tag, 'Update/Add $ItemType: $item by key: $key');
+      return _box.put(key, item);
+    } else {
+      logger.i(tag, 'Remove $ItemType by key: $key');
+      return _box.delete(key);
+    }
+  }
+
+  @override
+  Iterable<ItemType> get values {
     final values = _box.values;
-    logger.d('GetAll $T, values: $values');
+    logger.i(tag, 'GetAll $ItemType, values: $values');
     return values;
   }
 
@@ -49,20 +91,14 @@ mixin PCBaseBoxManager<Key, T> {
   bool get isEmpty => _box.isEmpty;
 }
 
-extension PCBaseBoxManagerExt<T extends Identifable<Key>, Key> on PCBaseBoxManager<Key, T> {
-  void put(T? val) {
-    if (val == null) {
-      logger.w('Try to put null $T');
-      return;
-    }
-    logger.d('Put $T: $val');
-    _box.put(val.id, val);
+extension PCBaseBoxManagerExt<T extends BaseItemModel<Key>, Key> on PCBaseBoxManager<Key, T> {
+  Future<void> put(T val) {
+    logger.i(PCBaseBoxManager.tag, 'Put $T: $val');
+    return _box.put(val.key, val);
   }
 
-  void putAll(Iterable<T> list) {
-    logger.d('PutAll $T: $list');
-    for (var value in list) {
-      _box.put(value.id, value);
-    }
+  Future<void> putAll(Iterable<T> list) {
+    logger.i(PCBaseBoxManager.tag, 'PutAll $T: $list');
+    return list.map((e) => _box.put(e.key, e)).wait;
   }
 }

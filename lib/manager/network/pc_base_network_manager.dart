@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:pivot_chat/manager/network/http_method_type.dart';
 import 'package:pivot_chat/manager/network/token_getter.dart';
-import 'package:utils/logger.dart';
+import 'package:framework/logger.dart';
 
 import 'http_model_decoder.dart';
 
@@ -13,7 +13,13 @@ part 'network_interceptor.dart';
 
 const baseUrl = kReleaseMode ? '' : '';
 
+const _tag = 'NETWORK';
+
 abstract class PCBaseNetworkManager {
+  PCBaseNetworkManager() {
+    logger.i(_tag, 'init');
+  }
+
   TokenGetter get tokenGetter;
 
   final _dio = Dio(BaseOptions(
@@ -78,7 +84,7 @@ abstract class PCBaseNetworkManager {
       }
       responseData = decoder.call(responseDataJson);
     } catch (e) {
-      logger.e('network request exception: REQ type: $T', e);
+      logger.e(_tag, 'request exception: REQ type: $T', e);
     }
 
     return responseData;

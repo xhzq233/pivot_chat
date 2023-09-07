@@ -1,38 +1,19 @@
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:utils/logger.dart';
+import 'package:framework/logger.dart';
+
+import 'base_box_manager.dart';
 
 final spManager = PCSPManager._();
 
 // shared preferences manager
-class PCSPManager {
+class PCSPManager extends PCBaseBoxManager<String, String> {
   PCSPManager._();
 
-  static const _kBoxName = 'pc_sp';
-  late final Box<String> _box;
-
-  Future<void> init() async {
-    _box = await Hive.openBox(_kBoxName);
-    logger.d('Init PCSPManager, values: ${_box.values}');
-  }
-
-  Future<void> clear() async {
-    await _box.clear();
-  }
-
-  Future<void> remove(String key) async {
-    await _box.delete(key);
-  }
-
-  Future<void> setVal<T>(String key, T? value) async {
-    if (null == value) {
-      await _box.delete(key);
-    } else {
-      await _box.put(key, value.toString());
-    }
+  Future<void> setVal<T>(String key, T? value) {
+    return update(key, value?.toString());
   }
 
   T? getVal<T>(String key) {
-    final val = _box.get(key);
+    final String? val = get(key);
     if (null == val) {
       return null;
     } else {
@@ -47,11 +28,9 @@ class PCSPManager {
       } else if (T == List<String>) {
         return val.split(',') as T;
       } else {
-        logger.w('Unsupported type: $T');
+        logger.w('SP', 'Unsupported type: $T');
         return null;
       }
     }
   }
-
-  Stream<BoxEvent> watch(String? key) => _box.watch(key: key);
 }

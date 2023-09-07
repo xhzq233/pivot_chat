@@ -3,7 +3,7 @@ part of 'pc_base_network_manager.dart';
 class _CustomInterceptors extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    logger.i('REQUEST[${options.method}] => PATH: ${options.path} DATA: ${options.data}');
+    logger.i(_tag, 'REQUEST[${options.method}] => PATH: ${options.path} DATA: ${options.data}');
     SmartDialog.dismiss(status: SmartStatus.loading, force: true);
     SmartDialog.showLoading();
     // if (tokenManager.isAuthed) {
@@ -14,14 +14,15 @@ class _CustomInterceptors extends Interceptor {
 
   @override
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
-    logger.i('RESPONSE[${response.statusCode}] <= PATH: ${response.requestOptions.path} DATA: ${response.data}');
+    logger.i(_tag, 'RESPONSE[${response.statusCode}] <= PATH: ${response.requestOptions.path} DATA: ${response.data}');
     SmartDialog.dismiss(status: SmartStatus.loading);
     super.onResponse(response, handler);
   }
 
   @override
   Future<dynamic> onError(DioException err, ErrorInterceptorHandler handler) async {
-    logger.i('ERROR[${err.response?.statusCode}] <= PATH: ${err.requestOptions.path} DATA: ${err.response?.data}');
+    logger.i(
+        _tag, 'ERROR[${err.response?.statusCode}] <= PATH: ${err.requestOptions.path} DATA: ${err.response?.data}');
     final response = err.response;
     SmartDialog.dismiss(status: SmartStatus.loading);
     if (response != null) {

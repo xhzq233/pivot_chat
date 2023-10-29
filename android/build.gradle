@@ -10,6 +10,7 @@ buildscript {
         maven {
             url 'https://maven.aliyun.com/repository/google'
         }
+
     }
 
     dependencies {
@@ -20,18 +21,9 @@ buildscript {
 
 allprojects {
     repositories {
-//        google()
-//        mavenCentral()
-        // 换源
-        maven {
-            url 'https://maven.aliyun.com/repository/jcenter'
-        }
-        maven {
-            url 'https://maven.aliyun.com/repository/central'
-        }
-        maven {
-            url 'https://maven.aliyun.com/repository/google'
-        }
+        google()
+        mavenCentral()
+        maven { url 'https://mirror.nju.edu.cn/flutter/download.flutter.io' }
     }
 }
 

@@ -29,9 +29,11 @@ dependencies:
   flutter:
     sdk: flutter
   framework:
+#    path:
+#      ../framework
     git:
       url: https://github.com/xhzq233/framework.git
-      ref: 59e68eafe7efe20ab872414eb970f6ddc9018a56
+      ref: 6ef98bb
   modal_bottom_sheet:
     git:
       url: https://github.com/xhzq233/modal_bottom_sheet.git

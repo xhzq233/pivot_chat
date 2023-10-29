@@ -18,9 +18,10 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CupertinoNavigationBar(middle: Text('Accounts')),
-      body: _LoginAccountsWidget(),
+    return Scaffold(
+      appBar: CupertinoNavigationBar(
+          middle: Text('Accounts', style: TextStyle(color: CupertinoColors.label.resolveFrom(context)))),
+      body: const _LoginAccountsWidget(),
     );
   }
 }
@@ -49,6 +50,7 @@ class _LoginAccountsWidget extends StatelessWidget {
               icon: const Icon(Icons.delete),
               onPressed: () => vm.decrement(item),
             ),
+            onTap: () => vm.press(item, context),
             selected: true,
           );
         }
@@ -63,6 +65,7 @@ class _LoginAccountsWidget extends StatelessWidget {
             icon: const Icon(Icons.delete),
             onPressed: () => vm.decrement(item),
           ),
+          onTap: () => vm.press(item, context),
         );
       },
     );

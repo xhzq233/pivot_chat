@@ -12,11 +12,14 @@ class PCApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: lightThemeData,
+      darkTheme: darkThemeData,
       title: 'Pivot Chat',
       // 统一为 iOS 风格的滑动效果
       scrollBehavior: const CupertinoScrollBehavior(),
       builder: FlutterSmartDialog.init(),
       onGenerateRoute: (RouteSettings setting) => DevPage.route(),
+      // checkerboardOffscreenLayers: true,
+      // checkerboardRasterCacheImages: true,
     );
   }
 }

@@ -359,8 +359,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "59e68eafe7efe20ab872414eb970f6ddc9018a56"
-      resolved-ref: "59e68eafe7efe20ab872414eb970f6ddc9018a56"
+      ref: "6ef98bb"
+      resolved-ref: "6ef98bbb9babde5034837d05eafe9e33a9479c40"
       url: "https://github.com/xhzq233/framework.git"
     source: git
     version: "0.0.1"

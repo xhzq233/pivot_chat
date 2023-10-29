@@ -1,8 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pivot_chat/manager/account_manager.dart';
 import 'package:pivot_chat/manager/base_box_manager.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:framework/logger.dart';
+
+import '../chat/chat_page.dart';
 
 class AccountDataViewModel extends ChangeNotifier {
   AccountDataViewModel();
@@ -66,5 +68,9 @@ class AccountDataViewModel extends ChangeNotifier {
     }
     accountManager.delete(key: account.id);
     notifyListeners();
+  }
+
+  void press(PCLocalAccount account, BuildContext context) {
+    Navigator.push(context, ChatPage.route());
   }
 }

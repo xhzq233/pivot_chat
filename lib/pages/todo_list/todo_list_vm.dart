@@ -3,7 +3,7 @@ import 'package:framework/list.dart';
 
 import 'todo_model.dart';
 
-class TodoDataViewModel with Disposable, BaseListViewModel<Todo, String> {
+class TodoDataViewModel with DisposeMixin, BaseListViewModel<Todo, String> {
   final List<Todo> _list = [
     const Todo(content: '111'),
     const Todo(content: '112'),

@@ -1,0 +1,48 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_openim_sdk (0.0.1):
+    - Flutter
+    - OpenIMSDKCore (= 3.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - "OpenIMSDKCore (3.0.0+1)"
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - sqflite (0.0.3):
+    - Flutter
+    - FMDB (>= 2.7.5)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_openim_sdk (from `.symlinks/plugins/flutter_openim_sdk/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+
+SPEC REPOS:
+  trunk:
+    - FMDB
+    - OpenIMSDKCore
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_openim_sdk:
+    :path: ".symlinks/plugins/flutter_openim_sdk/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_openim_sdk: 12daf3769f8bf40001970304445b6155c146b7eb
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  OpenIMSDKCore: 2e38a5b9be23e588b5049ebd378161cf277e41a0
+  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
+
+PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+
+COCOAPODS: 1.13.0

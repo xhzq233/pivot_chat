@@ -3,6 +3,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:framework/logger.dart';
@@ -11,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'manager/account_manager.dart';
 
 Future<void> initIM() async {
+  if (kIsWeb) return;
   if (!Platform.isIOS && !Platform.isAndroid) {
     return;
   }

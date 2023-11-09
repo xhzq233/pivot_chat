@@ -11,7 +11,7 @@ import 'http_model_decoder.dart';
 
 part 'network_interceptor.dart';
 
-const baseUrl = kReleaseMode ? '' : '';
+const baseUrl = kReleaseMode ? 'http://xhzq233.tpddns.cn:10002' : 'http://xhzq233.tpddns.cn:10002';
 
 const _tag = 'NETWORK';
 
@@ -22,25 +22,15 @@ abstract class PCBaseNetworkManager {
 
   TokenGetter get tokenGetter;
 
-  final _dio = Dio(BaseOptions(
+  late final _dio = Dio(BaseOptions(
     baseUrl: baseUrl,
     responseType: ResponseType.json,
     contentType: 'application/json',
+    receiveTimeout: const Duration(seconds: 5),
+    connectTimeout: const Duration(seconds: 5),
+    sendTimeout: const Duration(seconds: 5),
   ))
-    ..interceptors.add(_CustomInterceptors());
-
-  Options _createOptions(HttpMethodType type, Options? options) {
-    final token = tokenGetter.getToken();
-    final Map<String, String> headers = {};
-    if (token == null) {
-    } else {
-      headers['token'] = token;
-    }
-    if (null != options) {
-      return options.copyWith(method: type.name, headers: headers);
-    }
-    return Options(method: type.name, headers: headers);
-  }
+    ..interceptors.add(_CustomInterceptors(tokenGetter));
 
   Future<T?> sendRequest<T>(
     HttpMethodType methodType,
@@ -64,7 +54,7 @@ abstract class PCBaseNetworkManager {
     Response<dynamic> res;
     T? responseData;
     try {
-      final op = _createOptions(methodType, options);
+      final op = options?.copyWith(method: methodType.name) ?? Options(method: methodType.name);
       final requestOptions = op.compose(
         _dio.options,
         path,
@@ -77,9 +67,8 @@ abstract class PCBaseNetworkManager {
       );
 
       res = await _dio.fetch(requestOptions);
-
       final responseDataJson = res.data;
-      if (responseDataJson is! Map<String, Object>) {
+      if (responseDataJson is! Map<String, dynamic>) {
         throw UnsupportedError('Response is not a JSON');
       }
       responseData = decoder.call(responseDataJson);

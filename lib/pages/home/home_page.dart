@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/list.dart';
+import 'package:pivot_chat/model/account.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
+import 'package:pivot_chat/view_model/account_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:framework/cupertino.dart';
 
@@ -9,19 +11,22 @@ import '../todo_list/todo_list_view.dart';
 import '../todo_list/todo_list_vm.dart';
 import '../todo_list/todo_model.dart';
 import '../todo_list/todo_page.dart';
-import 'dev_vm.dart';
+import 'home_vm.dart';
 
-class DevPage extends StatelessWidget {
-  const DevPage({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-  static Route<void> route() {
-    return MaterialPageRoute<void>(
+  static Route<void> route(PCLocalAccount account) {
+    return CupertinoPageRoute(
       builder: (_) => Provider(
-        create: (context) => DevViewModel(),
+        create: (context) => HomeViewModel(),
         child: Provider(
-          create: (ctx) => TodoDataViewModel(),
-          dispose: (ctx, vm) => vm.dispose(),
-          child: const DevPage(key: ValueKey('LoginPage')),
+          create: (_) => TodoDataViewModel(),
+          dispose: (_, vm) => vm.dispose(),
+          child: ChangeNotifierProvider(
+            create: (ctx) => AccountViewModel(userID: account.key),
+            child: const HomePage(key: ValueKey('HomePage')),
+          ),
         ),
       ),
     );
@@ -29,7 +34,7 @@ class DevPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.read<DevViewModel>();
+    final vm = context.read<HomeViewModel>();
 
     return CupertinoPageScaffold(
       child: NestedScrollView(

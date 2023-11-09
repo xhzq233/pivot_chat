@@ -1,41 +1,37 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:framework/list.dart';
 import 'package:pivot_chat/manager/account_manager.dart';
-import 'package:pivot_chat/manager/base_box_manager.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:framework/logger.dart';
 
-import '../chat/chat_page.dart';
+import '../../im.dart';
+import '../home/home_page.dart';
 
-class AccountDataViewModel extends ChangeNotifier {
-  AccountDataViewModel();
+class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccount, String> {
+  LoginViewModel(BuildContext context) {
+    if (accountManager.current?.autologin == true) {
+      logger.i('', 'autologin with ${accountManager.current?.toJson()}');
+      press(accountManager.current!, context);
+    }
+  }
 
   final _list = _initState();
 
+  @override
   List<PCLocalAccount> get list => _list;
 
   static List<PCLocalAccount> _initState() {
-    final initial = accountManager.values.toList();
+    final initial = accountManager.accounts?.toList() ?? [];
     if (initial.isEmpty) {
       return initial;
-    }
-    final main = accountManager.current;
-    if (main == null) {
-      logger.w('', 'Accounts is not empty, but main account is null.');
-      accountManager.setMainAccount(initial.first);
-    } else {
-      initial.removeWhere((element) => element.id == main.id);
-      initial.insert(0, main);
     }
     return initial;
   }
 
   void increment(PCLocalAccount account) {
     _list.add(account);
-    if (_list.length == 1) {
-      // main account
-      accountManager.setMainAccount(account);
-    }
-    accountManager.put(account);
+    accountManager.add(account);
     notifyListeners();
   }
 
@@ -46,11 +42,7 @@ class AccountDataViewModel extends ChangeNotifier {
     final newState = _list;
     final account = newState.removeAt(oldIndex);
     newState.insert(newIndex, account);
-
-    if (newIndex == 0) {
-      // the first
-      accountManager.setMainAccount(account);
-    }
+    accountManager.accounts = newState;
     notifyListeners();
   }
 
@@ -62,15 +54,21 @@ class AccountDataViewModel extends ChangeNotifier {
       return;
     }
     _list.removeAt(index);
-    if (index == 0) {
-      // main account
-      accountManager.setMainAccount(_list.first);
-    }
-    accountManager.delete(key: account.id);
+    accountManager.delete(key: account.key);
     notifyListeners();
   }
 
-  void press(PCLocalAccount account, BuildContext context) {
-    Navigator.push(context, ChatPage.route());
+  void press(PCLocalAccount account, BuildContext context) async {
+    if (account.rememberPasswd == false) {
+      SmartDialog.showToast('Goto passwd page');
+      return;
+    }
+    if (account.autologin == false) {
+      function() => Navigator.pushAndRemoveUntil(context, HomePage.route(account), (route) => false);
+      SmartDialog.showLoading(msg: 'Login...');
+      await loginIM();
+      SmartDialog.dismiss();
+      function();
+    }
   }
 }

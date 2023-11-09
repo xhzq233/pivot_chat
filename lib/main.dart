@@ -3,7 +3,7 @@ import 'package:framework/logger.dart';
 import 'package:framework/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pivot_chat/app.dart';
-import 'package:pivot_chat/manager/account_manager.dart';
+import 'package:pivot_chat/im.dart';
 import 'package:pivot_chat/manager/sp_manager.dart';
 import 'package:pivot_chat/model/account.dart';
 
@@ -25,7 +25,8 @@ Future<void> _preLaunch() async {
   // Here runs the services which must be initialized before app.
   await Hive.initFlutter();
   Hive.registerAdapter(PCLocalAccountAdapter());
+  Hive.registerAdapter(UserInfoAdapter());
 
-  final futures = <Future<void>>[accountManager.init(), spManager.init()];
+  final futures = <Future<void>>[initIM(), spManager.init()];
   await Future.wait(futures);
 }

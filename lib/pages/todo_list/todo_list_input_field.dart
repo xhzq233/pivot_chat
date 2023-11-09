@@ -36,9 +36,7 @@ class LockInputFieldState with InputState {
   final String? text;
 
   @override
-  void dispose() {
-    // TODO: implement dispose
-  }
+  void dispose() {}
 }
 
 class TodoInputFieldViewModel extends ChangeNotifier with InputViewModelMixin {

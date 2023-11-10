@@ -73,10 +73,12 @@ class _Widget extends StatelessWidget {
             ),
           ],
         ),
-        const Spacer(flex: 2,),
+        const Spacer(
+          flex: 2,
+        ),
         CupertinoButton(
           onPressed: () => vm.login(Navigator.of(context).pop),
-          child: const Text('Login'),
+          child: const Text('Add Account'),
         ),
         const SizedBox(height: 20),
       ],

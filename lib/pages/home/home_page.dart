@@ -2,15 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/list.dart';
 import 'package:pivot_chat/model/account.dart';
-import 'package:pivot_chat/pages/login/login_page.dart';
+import 'package:pivot_chat/pages/add_contact/add_contact_page.dart';
+import 'package:pivot_chat/pages/todo_list/todo_page.dart';
 import 'package:pivot_chat/view_model/account_view_model.dart';
+import 'package:pivot_chat/view_model/conversations_view_model.dart';
+import 'package:pivot_chat/widgets/conversation/conversation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:framework/cupertino.dart';
 
-import '../todo_list/todo_list_view.dart';
-import '../todo_list/todo_list_vm.dart';
-import '../todo_list/todo_model.dart';
-import '../todo_list/todo_page.dart';
 import 'home_vm.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,8 +20,7 @@ class HomePage extends StatelessWidget {
       builder: (_) => Provider(
         create: (context) => HomeViewModel(),
         child: Provider(
-          create: (_) => TodoDataViewModel(),
-          dispose: (_, vm) => vm.dispose(),
+          create: (_) => ConversationsViewModel(),
           child: ChangeNotifierProvider(
             create: (ctx) => AccountViewModel(userID: account.key),
             child: const HomePage(key: ValueKey('HomePage')),
@@ -40,24 +38,33 @@ class HomePage extends StatelessWidget {
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           CupertinoSliverNavigationBar(
-            largeTitle: Text('Dev', style: TextStyle(color: CupertinoColors.label.resolveFrom(context))),
+            largeTitle: Text('Home', style: TextStyle(color: CupertinoColors.label.resolveFrom(context))),
             leading: CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => Navigator.of(context).push(LoginPage.route()),
-              child: const Text('Login'),
+              onPressed: () => (),
+              child: const Icon(CupertinoIcons.person_alt_circle),
             ),
-            trailing: CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () => Navigator.of(context).push(TodoListPage.route()),
-              child: const Text('Todo Example'),
+            trailing: Row(
+              children: [
+                CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () => Navigator.of(context).push(TodoListPage.route()),
+                  child: const Text('Example'),
+                ),
+                CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () => Navigator.push(context, AddContactPage.route()),
+                  child: const Icon(CupertinoIcons.add),
+                ),
+              ],
             ),
           ),
         ],
         body: Stack(
           children: [
-            BaseList<TodoDataViewModel, Todo, String>(
-              itemBuilder: TodoWidget.itemBuilder,
-              viewModel: context.read<TodoDataViewModel>(),
+            BaseList(
+              itemBuilder: ConversationWidget.itemBuilder,
+              viewModel: context.read<ConversationsViewModel>(),
               primary: true,
               topSliver: SliverToBoxAdapter(
                 child: Container(

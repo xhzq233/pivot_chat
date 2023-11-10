@@ -32,16 +32,11 @@ let's start coding🚀!
 
 - IM框架[flutter_openim_sdk](https://pub.dev/packages/flutter_openim_sdk)
 - 使用[Provider](https://pub.dev/packages/provider)作为状态管理框架
-- 使用[dio](https://pub.dev/packages/dio)作为网络请求框架
 - 使用[build_runner](https://pub.dev/packages/build_runner)
   作为代码生成工具，主要是用于json序列化，配合[json_serializable](https://pub.dev/packages/json_serializable)
   使用，[json_annotation](https://pub.dev/packages/json_annotation)作为注解
-- 使用[flutter_screenutil](https://pub.dev/packages/flutter_screenutil)作为屏幕适配框架
 - 使用[flutter_easyrefresh](https://pub.dev/packages/easy_refresh)作为下拉刷新框架
 - 使用[flutter_smart_dialog](https://pub.dev/packages/flutter_smart_dialog)作为弹窗框架
-- 统一使用[cached_network_image](https://pub.dev/packages/cached_network_image)
-  作为网络图片加载框架，本地图片资源尽量使用svg格式（可以和设计提出），使用[flutter_svg](https://pub.dev/packages/flutter_svg)
-  作为svg加载框架
 - 简易数据库/key-value存储[hive](https://pub.dev/packages/hive)
 - 使用[flutter_cache_manager](https://pub.dev/packages/flutter_cache_manager)作为缓存框架
 
@@ -61,25 +56,7 @@ let's start coding🚀!
 
 ### 文件命名
 
-- 文件名使用小写字母，单词之间使用下划线分割，并且将其主要类名写全，如：`image_cache_manaer.dart`
-- 类名使用大驼峰命名法，如：`ImageCacheManager`
 - 文件内私有const/final变量，以`_`开头，如：`const _kDefaultImageSize = 100.0;`，其中加k前缀代表`Key`，注意判断该变量是否需要其他地方使用，需要使用的话就不要加`_`前缀，并且要归类到`constants.dart`文件中
-
-### 代码规范
-
-- 代码缩进使用2个空格
-- 要换行的地方，必须加上comma `,`，如：
-
-```dart
-PCNetworkImage(
-  imageUrl: 'https://picsum.photos/250?image=9',
-  width: 100,
-  height: 100,
-),
-
-// or else
-PCNetworkImage(imageUrl: 'https://picsum.photos/250?image=9', width: 100, height: 100)
-```
 
 ### log规范
 

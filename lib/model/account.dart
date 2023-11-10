@@ -41,7 +41,6 @@ class PCLocalAccount extends BaseItemModel<String> {
   String get key => userinfo.userID!;
 }
 
-
 class UserInfoAdapter extends TypeAdapter<UserInfo> {
   @override
   final typeId = 2;

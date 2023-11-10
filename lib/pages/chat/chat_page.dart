@@ -110,7 +110,7 @@ class _MessageWidget extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(model.content),
+              child: Text(model.fallbackContent),
             ),
           ),
         ),

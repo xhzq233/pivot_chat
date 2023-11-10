@@ -38,7 +38,6 @@ class PCAccountManager with TokenGetter {
   Stream<Iterable<PCLocalAccount>> get accountsStream =>
       spManager.watch(key: _dataKeyIdName).map((event) => _json2accounts(event.value as String?) ?? []);
 
-
   @override
   String? getToken() {
     return current?.token;

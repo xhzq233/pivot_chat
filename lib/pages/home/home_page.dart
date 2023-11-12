@@ -15,14 +15,14 @@ import 'home_vm.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  static Route<void> route(PCLocalAccount account) {
+  static Route<void> route([PCLocalAccount? account]) {
     return CupertinoPageRoute(
       builder: (_) => Provider(
         create: (context) => HomeViewModel(),
         child: Provider(
           create: (_) => ConversationsViewModel(),
           child: ChangeNotifierProvider(
-            create: (ctx) => AccountViewModel(userID: account.key),
+            create: (ctx) => AccountViewModel(userID: account?.key ?? ''),
             child: const HomePage(key: ValueKey('HomePage')),
           ),
         ),
@@ -45,6 +45,7 @@ class HomePage extends StatelessWidget {
               child: const Icon(CupertinoIcons.person_alt_circle),
             ),
             trailing: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 CupertinoButton(
                   padding: EdgeInsets.zero,
@@ -72,16 +73,22 @@ class HomePage extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: CupertinoColors.systemGrey3.resolveFrom(context),
+                    color: CupertinoColors.systemGrey5.resolveFrom(context),
                   ),
                   child: NavigationLink(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    onPressed: vm.addRandomAccount,
-                    child: const Row(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    pressedColor: CupertinoColors.systemGrey4,
+                    onPressed: vm.search,
+                    child: Row(
                       children: [
-                        Text('Add Random account'),
-                        Spacer(),
-                        Icon(Icons.add),
+                        Icon(CupertinoIcons.search, color: CupertinoColors.systemGrey.resolveFrom(context)),
+                        const SizedBox(width: 8),
+                        Text('Search',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(color: CupertinoColors.systemGrey.resolveFrom(context))),
+                        const Spacer(),
                       ],
                     ),
                   ),

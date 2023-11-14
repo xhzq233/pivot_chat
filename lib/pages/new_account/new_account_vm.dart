@@ -1,10 +1,14 @@
-import 'package:flutter/widgets.dart';
+
+
+import 'package:flutter/material.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:framework/logger.dart';
 import 'package:pivot_chat/manager/account_manager.dart';
 import 'package:pivot_chat/manager/network/pc_network_manager.dart';
 import 'package:pivot_chat/model/account.dart';
+
+
 
 import '../../model/openim_spec_network.dart';
 
@@ -45,7 +49,7 @@ class NewAccountViewModel with ChangeNotifier {
       // TODO: 登陆页面加上选择nickname的文本框
       final resp = await netWorkManager.register(id, 'nickname');
       if (!resp.check()) return;
-      login(pop);
+      login( pop);
     } else {
       if (resp.data == null) {
         logger.e('NEW ACCOUNT', 'login: data is null');

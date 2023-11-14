@@ -17,8 +17,10 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: CupertinoNavigationBar(
         middle: Text('Accounts', style: TextStyle(color: CupertinoColors.label.resolveFrom(context))),

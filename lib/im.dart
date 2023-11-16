@@ -13,6 +13,13 @@ import 'package:pivot_chat/manager/msg_publisher.dart';
 
 import 'manager/account_manager.dart';
 
+import 'package:pivot_chat/pages/login/login_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+//无context跳转的
+GlobalKey<NavigatorState> navigatorKey=GlobalKey();
+
+
 Future<void> initIM() async {
   if (kIsWeb) return;
   if (!Platform.isIOS && !Platform.isAndroid) {
@@ -49,18 +56,21 @@ Future<void> initIM() async {
       onUserTokenExpired: () {
         // 登录凭证已经过期，请重新登录。
         SmartDialog.showToast('IM登录凭证已经过期，请重新登录');
-        // TODO: pop to login page
+        // Done: pop to login page(无context跳转)
+        navigatorKey.currentState?.push(LoginPage.route());
       },
       onKickedOffline: () {
         // 当前用户被踢下线，此时可以 UI
         // 提示用户“您已经在其他端登录了当前账号，是否重新登录？”
         SmartDialog.showToast('IM当前用户被踢下线');
-        // TODO: pop to login page
+        // Done: pop to login page(无context跳转)
+        navigatorKey.currentState?.push(LoginPage.route());
       },
     ),
   ) as bool;
 
   if (!success) exit(-1);
+
 }
 
 Future<void> loginIM() async {

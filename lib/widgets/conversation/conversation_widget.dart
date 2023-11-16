@@ -2,7 +2,7 @@
 /// Created by xhz on 11/10/23
 
 import 'package:flutter/widgets.dart';
-import 'package:pivot_chat/view_model/conversations_view_model.dart';
+import 'package:pivot_chat/model/conversation.dart';
 
 // TODO: 会话列表的单个Widget
 class ConversationWidget extends StatelessWidget {

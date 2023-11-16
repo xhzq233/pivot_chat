@@ -8,20 +8,16 @@ import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:framework/logger.dart';
 import 'package:path_provider/path_provider.dart';
-import 'manager/account_manager.dart';
+import 'package:pivot_chat/manager/conv_publisher.dart';
+import 'package:pivot_chat/manager/msg_publisher.dart';
 
-import 'package:pivot_chat/pages/login/login_page.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-//无context跳转的
-GlobalKey<NavigatorState> navigatorKey=GlobalKey();
+import 'manager/account_manager.dart';
 
 Future<void> initIM() async {
   if (kIsWeb) return;
   if (!Platform.isIOS && !Platform.isAndroid) {
     return;
   }
-
 
   final success = await OpenIM.iMManager.initSDK(
     // platformID: Platform.isIOS ? IMPlatform.ios : IMPlatform.android,
@@ -53,15 +49,13 @@ Future<void> initIM() async {
       onUserTokenExpired: () {
         // 登录凭证已经过期，请重新登录。
         SmartDialog.showToast('IM登录凭证已经过期，请重新登录');
-        // Done: pop to login page(无context跳转)
-        navigatorKey.currentState?.push(LoginPage.route());
+        // TODO: pop to login page
       },
       onKickedOffline: () {
         // 当前用户被踢下线，此时可以 UI
         // 提示用户“您已经在其他端登录了当前账号，是否重新登录？”
         SmartDialog.showToast('IM当前用户被踢下线');
-        // Done: pop to login page(无context跳转)
-        navigatorKey.currentState?.push(LoginPage.route());
+        // TODO: pop to login page
       },
     ),
   ) as bool;
@@ -73,20 +67,19 @@ Future<void> loginIM() async {
   // Set listener
   OpenIM.iMManager
     ..userManager.setUserListener(OnUserListener())
-    // Add message listener (remove when not in use)
-    ..messageManager.setAdvancedMsgListener(OnAdvancedMsgListener())
+    ..messageManager.setAdvancedMsgListener(messagePublisher)
     // Set up message sending progress listener
     ..messageManager.setMsgSendProgressListener(OnMsgSendProgressListener())
-    ..messageManager.setCustomBusinessListener(OnCustomBusinessListener())
+    // ..messageManager.setCustomBusinessListener(OnCustomBusinessListener())
     // Set up friend relationship listener
     ..friendshipManager.setFriendshipListener(OnFriendshipListener())
     // Set up conversation listener
-    ..conversationManager.setConversationListener(OnConversationListener())
+    ..conversationManager.setConversationListener(conversationPublisher)
     // Set up group listener
     ..groupManager.setGroupListener(OnGroupListener());
   final account = accountManager.current;
   if (account == null || account.token == null) {
-    logger.w('IM', 'login when Account is null');
+    logger.e('IM', 'login when Account is null');
     return;
   }
   final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);

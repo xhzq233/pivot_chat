@@ -322,10 +322,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_openim_sdk
-      sha256: "5758f762c9bea4aae9d042dd196678e497cb4a73057fbbf299cde02e4c2579d1"
+      sha256: fd675d285cf13cf4b428a3dc5694cd388e3d6691f0225ffe9e5e76a1361da617
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
-    version: "3.0.0"
+    version: "3.4.0"
   flutter_smart_dialog:
     dependency: "direct main"
     description:

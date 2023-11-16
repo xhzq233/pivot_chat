@@ -41,14 +41,6 @@ class MessagePublisher extends OnAdvancedMsgListener {
   @override
   void recvGroupReadReceipt(List<ReadReceiptInfo> list) {}
 
-  /// 收到拓展消息kv新增
-  @override
-  void recvMessageExtensionsAdded(String msgID, List<KeyValue> list) {}
-
-  /// 收到拓展消息kv改变
-  @override
-  void recvMessageExtensionsChanged(String msgID, List<KeyValue> list) {}
-
   /// 收到扩展消息被删除
   /// [list] 被删除的TypeKey
   @override

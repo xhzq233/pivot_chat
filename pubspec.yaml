@@ -53,7 +53,7 @@ dependencies:
   json_annotation: ^4.8.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  flutter_openim_sdk: ^3.0.0
+  flutter_openim_sdk: 3.4.0
   path_provider: ^2.1.1
 
 dev_dependencies:

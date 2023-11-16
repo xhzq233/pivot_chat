@@ -5,7 +5,7 @@ import 'package:pivot_chat/model/account.dart';
 import 'package:pivot_chat/pages/add_contact/add_contact_page.dart';
 import 'package:pivot_chat/pages/todo_list/todo_page.dart';
 import 'package:pivot_chat/view_model/account_view_model.dart';
-import 'package:pivot_chat/view_model/conversations_view_model.dart';
+import 'package:pivot_chat/view_model/conversation_list_view_model.dart';
 import 'package:pivot_chat/widgets/conversation/conversation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:framework/cupertino.dart';
@@ -20,7 +20,8 @@ class HomePage extends StatelessWidget {
       builder: (_) => Provider(
         create: (context) => HomeViewModel(),
         child: Provider(
-          create: (_) => ConversationsViewModel(),
+          create: (_) => ConversationListViewModel(),
+          dispose: (_, vm) => vm.dispose(),
           child: ChangeNotifierProvider(
             create: (ctx) => AccountViewModel(userID: account?.key ?? ''),
             child: const HomePage(key: ValueKey('HomePage')),
@@ -65,7 +66,7 @@ class HomePage extends StatelessWidget {
           children: [
             BaseList(
               itemBuilder: ConversationWidget.itemBuilder,
-              viewModel: context.read<ConversationsViewModel>(),
+              viewModel: context.read<ConversationListViewModel>(),
               primary: true,
               topSliver: SliverToBoxAdapter(
                 child: Container(

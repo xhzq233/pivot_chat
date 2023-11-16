@@ -8,6 +8,8 @@ import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:framework/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pivot_chat/manager/conv_publisher.dart';
+import 'package:pivot_chat/manager/msg_publisher.dart';
 
 import 'manager/account_manager.dart';
 
@@ -65,20 +67,19 @@ Future<void> loginIM() async {
   // Set listener
   OpenIM.iMManager
     ..userManager.setUserListener(OnUserListener())
-    // Add message listener (remove when not in use)
-    ..messageManager.setAdvancedMsgListener(OnAdvancedMsgListener())
+    ..messageManager.setAdvancedMsgListener(messagePublisher)
     // Set up message sending progress listener
     ..messageManager.setMsgSendProgressListener(OnMsgSendProgressListener())
-    ..messageManager.setCustomBusinessListener(OnCustomBusinessListener())
+    // ..messageManager.setCustomBusinessListener(OnCustomBusinessListener())
     // Set up friend relationship listener
     ..friendshipManager.setFriendshipListener(OnFriendshipListener())
     // Set up conversation listener
-    ..conversationManager.setConversationListener(OnConversationListener())
+    ..conversationManager.setConversationListener(conversationPublisher)
     // Set up group listener
     ..groupManager.setGroupListener(OnGroupListener());
   final account = accountManager.current;
   if (account == null || account.token == null) {
-    logger.w('IM', 'login when Account is null');
+    logger.e('IM', 'login when Account is null');
     return;
   }
   final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);

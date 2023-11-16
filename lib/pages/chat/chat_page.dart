@@ -14,6 +14,7 @@ class ChatPage extends StatelessWidget {
     return CupertinoPageRoute(
       builder: (_) => Provider(
         create: (ctx) => ChatListDataViewModel(),
+        dispose: (_, vm) => vm.dispose(),
         child: ChangeNotifierProvider(
           create: (ctx) => ChatInputFieldViewModel(),
           child: const ChatPage(),

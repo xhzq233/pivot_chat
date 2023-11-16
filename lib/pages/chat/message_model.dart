@@ -55,7 +55,7 @@ class MessageModel extends BaseItemModel<String> {
   }
   //@消息
   AtTextElem? get atTextContent {
-    if (_message.contentType == MessageType.at_text) {
+    if (_message.contentType == MessageType.atText) {
       assert(_message.atTextElem != null);
       return _message.atTextElem;
     }
@@ -115,7 +115,7 @@ class MessageModel extends BaseItemModel<String> {
   }
   // 表情消息
   FaceElem? get faceContent {
-    if (_message.contentType == MessageType.custom_face) {
+    if (_message.contentType == MessageType.customFace) {
       assert(_message.faceElem != null);
       return _message.faceElem;
     }

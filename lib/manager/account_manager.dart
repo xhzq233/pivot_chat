@@ -27,10 +27,13 @@ class PCAccountManager with TokenGetter {
   Iterable<PCLocalAccount>? _json2accounts(String? json) {
     if (null == json) return null;
     final list = jsonDecode(json);
-    if (list is! List<Map<String, dynamic>>) {
+    if (list is! List<dynamic>) {
       return null;
     }
-    return list.map((e) => PCLocalAccount.fromJson(e));
+    if (list.firstOrNull is! Map<String, dynamic>) {
+      return null;
+    }
+    return list.map((e) => PCLocalAccount.fromJson(e as Map<String, dynamic>));
   }
 
   set accounts(Iterable<PCLocalAccount>? accounts) => spManager.setVal(_dataKeyIdName, jsonEncode(accounts));
@@ -46,7 +49,7 @@ class PCAccountManager with TokenGetter {
   void add(PCLocalAccount account) {
     logger.i(_tag, 'Add $PCLocalAccount: $account');
     final accounts = this.accounts?.toList() ?? [];
-    assert(accounts.indexWhere((element) => element.key == account.key) != -1, 'Account already exists');
+    assert(accounts.indexWhere((element) => element.key == account.key) == -1, 'Account already exists');
     accounts.add(account);
     this.accounts = accounts;
   }

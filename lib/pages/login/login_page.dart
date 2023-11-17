@@ -46,11 +46,11 @@ class _LoginAccountsWidget extends StatelessWidget {
         final item = vm.list[index];
         return ListTile(
           key: ValueKey(item),
-          title: Text(item.userinfo.nickname ?? 'Error'),
-          subtitle: Text(item.userinfo.ex ?? 'Error'),
+          title: Text(item.name),
           leading: CircleAvatar(
-            child: Image.network(item.userinfo.faceURL ?? ''),
-          ),
+              child: item.userinfo.faceURL == null
+                  ? Text(item.name.substring(0, 1))
+                  : Image.network(item.userinfo.faceURL!)),
           trailing: IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => vm.decrement(item),

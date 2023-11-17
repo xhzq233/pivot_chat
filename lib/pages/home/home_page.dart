@@ -16,15 +16,19 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   static Route<void> route([PCLocalAccount? account]) {
+    final PCLocalAccount account_ = account ?? PCLocalAccount.anonymous;
     return CupertinoPageRoute(
-      builder: (_) => Provider(
-        create: (context) => HomeViewModel(),
+      builder: (_) => Provider.value(
+        value: account_,
         child: Provider(
-          create: (_) => ConversationListViewModel(),
-          dispose: (_, vm) => vm.dispose(),
-          child: ChangeNotifierProvider(
-            create: (ctx) => AccountViewModel(userID: account?.key ?? ''),
-            child: const HomePage(key: ValueKey('HomePage')),
+          create: (context) => HomeViewModel(),
+          child: Provider(
+            create: (_) => ConversationListViewModel(),
+            dispose: (_, vm) => vm.dispose(),
+            child: ChangeNotifierProvider(
+              create: (ctx) => AccountViewModel(userID: account_.key),
+              child: const HomePage(key: ValueKey('HomePage')),
+            ),
           ),
         ),
       ),
@@ -39,7 +43,10 @@ class HomePage extends StatelessWidget {
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           CupertinoSliverNavigationBar(
-            largeTitle: Text('Home', style: TextStyle(color: CupertinoColors.label.resolveFrom(context))),
+            largeTitle: Text(
+              context.read<PCLocalAccount>().name,
+              style: TextStyle(color: CupertinoColors.label.resolveFrom(context)),
+            ),
             leading: CupertinoButton(
               padding: EdgeInsets.zero,
               onPressed: () => (),
@@ -66,7 +73,7 @@ class HomePage extends StatelessWidget {
           children: [
             BaseList(
               itemBuilder: ConversationWidget.itemBuilder,
-              viewModel: context.read<ConversationListViewModel>(),
+              viewModel: context.read<ConversationListViewModel>()..conversationChanged([]),
               primary: true,
               topSliver: SliverToBoxAdapter(
                 child: Container(

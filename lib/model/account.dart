@@ -10,6 +10,12 @@ part 'account.g.dart';
 @JsonSerializable(explicitToJson: true)
 @HiveType(typeId: 1)
 class PCLocalAccount extends BaseItemModel<String> {
+  static final anonymous = PCLocalAccount(
+    userinfo: UserInfo(userID: 'anonymous'),
+    rememberPasswd: false,
+    autologin: false,
+  );
+
   @JsonKey(name: 'token')
   @HiveField(0)
   final String? token;
@@ -38,7 +44,18 @@ class PCLocalAccount extends BaseItemModel<String> {
   Map<String, dynamic> toJson() => _$PCLocalAccountToJson(this);
 
   @override
-  String get key => userinfo.userID!;
+  String get key => userinfo.userID ?? '';
+
+  // TODO: 解析用户信息
+  String get name {
+    if (userinfo.nickname != null && userinfo.nickname!.isNotEmpty) {
+      return userinfo.nickname!;
+    }
+    if (key.isNotEmpty) {
+      return key;
+    }
+    return '未知';
+  }
 }
 
 class UserInfoAdapter extends TypeAdapter<UserInfo> {

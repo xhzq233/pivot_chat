@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:framework/list.dart';
-import 'package:pivot_chat/pages/chat/message_model.dart';
+import 'package:pivot_chat/model/message_model.dart';
 import 'package:provider/provider.dart';
 
 import 'chat_input_field_vm.dart';
@@ -14,6 +14,7 @@ class ChatPage extends StatelessWidget {
     return CupertinoPageRoute(
       builder: (_) => Provider(
         create: (ctx) => ChatListDataViewModel(),
+        dispose: (_, vm) => vm.dispose(),
         child: ChangeNotifierProvider(
           create: (ctx) => ChatInputFieldViewModel(),
           child: const ChatPage(),

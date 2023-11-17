@@ -2,11 +2,11 @@ PODS:
   - Flutter (1.0.0)
   - flutter_openim_sdk (0.0.1):
     - Flutter
-    - OpenIMSDKCore (= 3.0.0)
+    - OpenIMSDKCore (= 3.4.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - "OpenIMSDKCore (3.0.0+1)"
+  - OpenIMSDKCore (3.4.0)
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -37,12 +37,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_openim_sdk: 12daf3769f8bf40001970304445b6155c146b7eb
+  flutter_openim_sdk: 54d1c836ff60ebb5b99d246521ef0cb1d834fb13
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  OpenIMSDKCore: 2e38a5b9be23e588b5049ebd378161cf277e41a0
+  OpenIMSDKCore: 47e0e830afe0d2dd905ad3dda255e6a6d26a555c
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
 
-PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+PODFILE CHECKSUM: 6b9eb94e9f98a329f2ef624b852a6e42d090af2b
 
 COCOAPODS: 1.13.0

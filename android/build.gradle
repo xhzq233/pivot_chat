@@ -1,8 +1,8 @@
 buildscript {
     ext.kotlin_version = '1.7.10'
     repositories {
-//        google()
-//        mavenCentral()
+        google()
+        mavenCentral()
         // 换源
         maven {
             url 'https://maven.aliyun.com/repository/jcenter'
@@ -24,6 +24,10 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://mirror.nju.edu.cn/flutter/download.flutter.io' }
+
+        // OpenIM
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://open-im-online.rentsoft.cn:51000/repository/maven2/' }
     }
 }
 

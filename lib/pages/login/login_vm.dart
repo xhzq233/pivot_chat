@@ -13,21 +13,19 @@ class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccoun
     if (accountManager.current?.autologin == true) {
       logger.i('', 'autologin with ${accountManager.current?.toJson()}');
       press(accountManager.current!, context);
+      return;
     }
+    accountManager.accountsStream.listen((event) {
+      _list.clear();
+      _list.addAll(event);
+      notifyListeners();
+    });
   }
 
-  final _list = _initState();
+  final _list = accountManager.accounts?.toList() ?? [];
 
   @override
   List<PCLocalAccount> get list => _list;
-
-  static List<PCLocalAccount> _initState() {
-    final initial = accountManager.accounts?.toList() ?? [];
-    if (initial.isEmpty) {
-      return initial;
-    }
-    return initial;
-  }
 
   void increment(PCLocalAccount account) {
     _list.add(account);
@@ -63,12 +61,10 @@ class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccoun
       SmartDialog.showToast('Goto passwd page');
       return;
     }
-    if (account.autologin == false) {
-      function() => Navigator.pushAndRemoveUntil(context, HomePage.route(account), (route) => false);
-      SmartDialog.showLoading(msg: 'Login...');
-      await loginIM();
-      SmartDialog.dismiss();
-      function();
-    }
+    function() => Navigator.pushAndRemoveUntil(context, HomePage.route(account), (route) => false);
+    SmartDialog.showLoading(msg: 'Login...');
+    await loginIM();
+    SmartDialog.dismiss();
+    function();
   }
 }

@@ -55,7 +55,7 @@ class MessageModel extends BaseItemModel<String> {
   }
   //@消息
   AtTextElem? get atTextContent {
-    if (_message.contentType == MessageType.atText) {
+    if (_message.contentType == MessageType.text) {
       assert(_message.atTextElem != null);
       return _message.atTextElem;
     }
@@ -121,7 +121,6 @@ class MessageModel extends BaseItemModel<String> {
     }
     return null;
   }
-
 
   String get fallbackContent {
     switch (_message.contentType) {

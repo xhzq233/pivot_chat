@@ -4,8 +4,12 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
 import 'package:pivot_chat/theme.dart';
 
+import 'package:pivot_chat/im.dart';
+
 class PCApp extends StatelessWidget {
   const PCApp({super.key});
+
+
 
   // This widget is the root of your application.
   @override
@@ -18,6 +22,8 @@ class PCApp extends StatelessWidget {
       scrollBehavior: const CupertinoScrollBehavior(),
       builder: FlutterSmartDialog.init(),
       onGenerateRoute: (RouteSettings setting) => LoginPage.route(),
+      //navigatorKey配置
+      navigatorKey:navigatorKey,
       debugShowCheckedModeBanner: false,
       // checkerboardOffscreenLayers: true,
       // checkerboardRasterCacheImages: true,

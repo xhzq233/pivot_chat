@@ -28,7 +28,6 @@ class MessageModel extends BaseItemModel<String> {
     return _message.pictureElem;
   }
 
-  // TODO: 解析剩余消息类型(https://doc.rentsoft.cn/zh-Hans/sdks/enum/messageContentType)
   // 语言消息
   SoundElem? get soundContent {
     if (_message.contentType == MessageType.voice) {
@@ -37,6 +36,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return _message.soundElem;
   }
+
   // 视频消息
   VideoElem? get videoContent {
     if (_message.contentType == MessageType.video) {
@@ -45,6 +45,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return _message.videoElem;
   }
+
   // 文件
   FileElem? get fileContent {
     if (_message.contentType == MessageType.file) {
@@ -53,6 +54,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return null;
   }
+
   //@消息
   AtTextElem? get atTextContent {
     if (_message.contentType == MessageType.text) {
@@ -61,6 +63,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return null;
   }
+
   //合并消息
   MergeElem? get mergeContent {
     if (_message.contentType == MessageType.merger) {
@@ -87,6 +90,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return null;
   }
+
   // 自定义消息
   CustomElem? get customContent {
     if (_message.contentType == MessageType.custom) {
@@ -95,6 +99,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return null;
   }
+
   //撤回消息回执 ，找不到
 
   // 输入状态
@@ -105,6 +110,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return null;
   }
+
   //引用消息
   QuoteElem? get quoteContent {
     if (_message.contentType == MessageType.quote) {
@@ -113,6 +119,7 @@ class MessageModel extends BaseItemModel<String> {
     }
     return null;
   }
+
   // 表情消息
   FaceElem? get faceContent {
     if (_message.contentType == MessageType.customFace) {
@@ -128,6 +135,28 @@ class MessageModel extends BaseItemModel<String> {
         return _message.textElem?.content ?? "文本消息解析失败";
       case MessageType.picture:
         return "[图片]";
+      case MessageType.voice:
+        return "[语音]";
+      case MessageType.video:
+        return "[视频]";
+      case MessageType.file:
+        return "[文件]";
+      case MessageType.atText:
+        return _message.atTextElem?.text ?? "@消息解析失败";
+      case MessageType.merger:
+        return "[合并消息]";
+      case MessageType.card:
+        return "[名片消息]";
+      case MessageType.location:
+        return "[位置消息]";
+      case MessageType.custom:
+        return "[自定义消息]";
+      case MessageType.typing:
+        return "[输入状态]";
+      case MessageType.quote:
+        return "[引用消息]";
+      case MessageType.customFace:
+        return "[表情消息]";
       default:
         return "暂不支持的消息类型";
     }

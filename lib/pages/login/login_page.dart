@@ -8,8 +8,6 @@ import 'login_vm.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  //注册登录页路由名称
-  static String routeName = '/login';
 
   static Route<void> route() {
     return CupertinoPageRoute<void>(
@@ -17,7 +15,6 @@ class LoginPage extends StatelessWidget {
         create: (context) => LoginViewModel(context),
         child: const LoginPage(key: ValueKey('LoginPage')),
       ),
-      settings: RouteSettings(name: routeName),
     );
   }
 

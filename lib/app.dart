@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:pivot_chat/im.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
 import 'package:pivot_chat/theme.dart';
 
@@ -18,6 +19,8 @@ class PCApp extends StatelessWidget {
       scrollBehavior: const CupertinoScrollBehavior(),
       builder: FlutterSmartDialog.init(),
       onGenerateRoute: (RouteSettings setting) => LoginPage.route(),
+      //navigatorKey配置
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       // checkerboardOffscreenLayers: true,
       // checkerboardRasterCacheImages: true,

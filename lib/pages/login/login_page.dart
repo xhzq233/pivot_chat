@@ -8,7 +8,6 @@ import 'login_vm.dart';
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-
   static Route<void> route() {
     return CupertinoPageRoute<void>(
       builder: (_) => ChangeNotifierProvider(

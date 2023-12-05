@@ -12,6 +12,8 @@ class MessageModel extends BaseItemModel<String> {
 
   const MessageModel(this._message);
 
+  // FIXME: 由于Message里没有Conversation字段，主动扩展。
+  // 为保证能和conversation对应上，见conversation_model.dart
   String get conversationID {
     return _message.sessionType == ConversationType.single ? _message.sendID! : _message.groupID!;
   }

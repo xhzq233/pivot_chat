@@ -3,7 +3,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:pivot_chat/manager/conv_publisher.dart';
-import 'package:pivot_chat/model/conversation.dart';
+import 'package:pivot_chat/model/conversation_model.dart';
 
 // TODO: 会话的ViewModel，监听会话详情并发布
 class ConversationViewModel extends ChangeNotifier with ConversationReceiver {
@@ -12,7 +12,7 @@ class ConversationViewModel extends ChangeNotifier with ConversationReceiver {
   String get conversationID => throw UnimplementedError();
 
   @override
-  void onConvChanged(Conversation conv) {
+  void onConvChanged(ConversationModel conv) {
     // TODO: implement onConvChanged
   }
 }

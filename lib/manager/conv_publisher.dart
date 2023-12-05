@@ -2,7 +2,7 @@
 /// Created by xhz on 11/16/23
 
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
-import 'package:pivot_chat/model/conversation.dart';
+import 'package:pivot_chat/model/conversation_model.dart';
 
 final conversationPublisher = ConversationPublisher._();
 
@@ -10,11 +10,11 @@ mixin ConversationReceiver {
   // conversationID	String	会话 ID
   String get conversationID;
 
-  void onConvChanged(Conversation conv);
+  void onConvChanged(ConversationModel conv);
 }
 
 mixin ConversationListReceiver {
-  void conversationChanged(List<Conversation> list);
+  void conversationChanged(List<ConversationModel> list);
 }
 
 class ConversationPublisher extends OnConversationListener {
@@ -44,11 +44,12 @@ class ConversationPublisher extends OnConversationListener {
   /// 会话发生改变
   @override
   void conversationChanged(List<ConversationInfo> list) {
-    for (var conv in list) {
-      _receivers[conv.conversationID]?.onConvChanged(Conversation(conv));
+    final wrapped = list.map((e) => ConversationModel(e)).toList();
+    for (var conv in wrapped) {
+      _receivers[conv.conversationID]?.onConvChanged(conv);
     }
     for (var element in _listReceivers) {
-      element.conversationChanged(list.map((e) => Conversation(e)).toList());
+      element.conversationChanged(wrapped);
     }
   }
 
@@ -56,7 +57,7 @@ class ConversationPublisher extends OnConversationListener {
   @override
   void newConversation(List<ConversationInfo> list) {
     for (var element in _listReceivers) {
-      element.conversationChanged(list.map((e) => Conversation(e)).toList());
+      element.conversationChanged(list.map((e) => ConversationModel(e)).toList());
     }
   }
 

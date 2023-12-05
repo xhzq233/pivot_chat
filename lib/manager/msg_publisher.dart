@@ -3,13 +3,17 @@
 
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 
+import '../model/message_model.dart';
+
 final messagePublisher = MessagePublisher._();
 
 mixin MessageReceiver {
   // conversationID	String	会话 ID
   String get conversationID;
 
-  void onMessageReceived(Message message);
+  void onMessageReceived(MessageModel message);
+
+  void onMessageDeleted(MessageModel messageModel);
 }
 
 class MessagePublisher extends OnAdvancedMsgListener {
@@ -27,7 +31,10 @@ class MessagePublisher extends OnAdvancedMsgListener {
 
   // TODO: Publish message to receivers
   @override
-  void msgDeleted(Message msg) {}
+  void msgDeleted(Message msg) {
+    final wrapped = MessageModel(msg);
+    _receivers[wrapped.conversationID]?.onMessageDeleted(wrapped);
+  }
 
   /// 消息被撤回
   @override

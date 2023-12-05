@@ -12,6 +12,10 @@ class MessageModel extends BaseItemModel<String> {
 
   const MessageModel(this._message);
 
+  String get conversationID {
+    return _message.sessionType == ConversationType.single ? _message.sendID! : _message.groupID!;
+  }
+
   String? get textContent {
     if (_message.contentType == MessageType.text) {
       assert(_message.textElem != null);

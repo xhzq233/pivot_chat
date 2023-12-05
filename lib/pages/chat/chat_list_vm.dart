@@ -1,4 +1,3 @@
-import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:framework/base.dart';
 import 'package:framework/list.dart';
 import 'package:pivot_chat/manager/msg_publisher.dart';
@@ -26,7 +25,12 @@ class ChatListDataViewModel with DisposeMixin, BaseListViewModel<MessageModel, S
   }
 
   @override
-  void onMessageReceived(Message message) {
+  void onMessageDeleted(MessageModel messageModel) {
+    // TODO: implement onMessageDeleted
+  }
+
+  @override
+  void onMessageReceived(MessageModel message) {
     // TODO: implement onMessageReceived
   }
 }

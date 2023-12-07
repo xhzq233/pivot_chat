@@ -7,7 +7,7 @@ import 'package:pivot_chat/manager/conv_publisher.dart';
 import 'package:pivot_chat/model/conversation_model.dart';
 
 /// 会话列表的ViewModel
-/// TODO: 获取会话列表、设置会话属性
+/// TODO: 设置会话属性(置顶、Mute)
 /// 例如用于Conversation展示会话列表页面（Home）
 /// API文档(https://doc.rentsoft.cn/zh-Hans/sdks/api/conversation)
 class ConversationListViewModel with BaseListViewModel<ConversationModel, String>, ConversationListReceiver {
@@ -33,7 +33,20 @@ class ConversationListViewModel with BaseListViewModel<ConversationModel, String
 
   @override
   void conversationChanged(List<ConversationModel> list) {
-    // TODO: implement conversationChanged
-    // list去重合并排序，通知View更新
+    // list去重合并
+    for (var newItem in list) {
+      final index = this.list.indexWhere((e) => e.conversationID == newItem.conversationID);
+      if (index == -1) {
+        this.list.add(newItem);
+      } else {
+        this.list[index] = newItem;
+      }
+    }
+
+    // 排序, 按照latestMsgSendTime降序排列
+    this.list.sort((a, b) => b.latestMsgSendTime.compareTo(a.latestMsgSendTime));
+
+    // 通知View更新
+    notifyList();
   }
 }

@@ -11,11 +11,15 @@ class ConversationModel extends BaseItemModel<String> {
 
   // FIXME: 写的太屎了，相当于把OpenIM的conversationID屏蔽了
   String get conversationID {
-    return _conversationInfo.conversationType == ConversationType.single ? _conversationInfo.userID! : _conversationInfo.groupID!;
+    return _conversationInfo.conversationType == ConversationType.single
+        ? _conversationInfo.userID!
+        : _conversationInfo.groupID!;
   }
 
   @override
   String get key => _conversationInfo.conversationID;
 
   bool get isPinned => _conversationInfo.isPinned == true;
+
+  int get latestMsgSendTime => _conversationInfo.latestMsgSendTime ?? 0;
 }

@@ -12,7 +12,7 @@ import 'package:pivot_chat/view_model/account_view_model.dart';
 import 'package:pivot_chat/view_model/conversation_list_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../../im.dart';
+import '../../../app.dart';
 import '../../login/login_page.dart';
 
 class PersonModal extends StatelessWidget {
@@ -78,7 +78,7 @@ class PersonModal extends StatelessWidget {
                 leading: const Icon(CupertinoIcons.power),
                 onTap: () async {
                   await OpenIM.iMManager.logout();
-                  navigatorKey.currentState?.pushAndRemoveUntil(LoginPage.route(), (Route<dynamic> route) => false);
+                  navigator?.pushAndRemoveUntil(LoginPage.route(), (Route<dynamic> route) => false);
                 },
               ),
             ]),

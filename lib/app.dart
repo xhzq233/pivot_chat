@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:pivot_chat/im.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
 import 'package:pivot_chat/theme.dart';
+
+//无context跳转的GlobalKey配置
+GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
+NavigatorState? get navigator => _navigatorKey.currentState;
 
 class PCApp extends StatelessWidget {
   const PCApp({super.key});
@@ -20,7 +23,7 @@ class PCApp extends StatelessWidget {
       builder: FlutterSmartDialog.init(),
       onGenerateRoute: (RouteSettings setting) => LoginPage.route(),
       //navigatorKey配置
-      navigatorKey: navigatorKey,
+      navigatorKey: _navigatorKey,
       debugShowCheckedModeBanner: false,
       // checkerboardOffscreenLayers: true,
       // checkerboardRasterCacheImages: true,

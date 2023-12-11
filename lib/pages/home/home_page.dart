@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:framework/list.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:pivot_chat/pages/add_contact/add_contact_page.dart';
+import 'package:pivot_chat/pages/home/person/person_modal.dart';
 import 'package:pivot_chat/pages/todo_list/todo_page.dart';
 import 'package:pivot_chat/view_model/account_view_model.dart';
 import 'package:pivot_chat/view_model/conversation_list_view_model.dart';
 import 'package:pivot_chat/widgets/conversation/conversation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:framework/cupertino.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'home_vm.dart';
 
@@ -17,7 +22,7 @@ class HomePage extends StatelessWidget {
 
   static Route<void> route([PCLocalAccount? account]) {
     final PCLocalAccount account_ = account ?? PCLocalAccount.anonymous;
-    return CupertinoPageRoute(
+    return MaterialWithModalsPageRoute(
       builder: (_) => Provider.value(
         value: account_,
         child: Provider(
@@ -49,7 +54,7 @@ class HomePage extends StatelessWidget {
             ),
             leading: CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => (),
+              onPressed: () => PersonModal.show(context, context.read<PCLocalAccount>()),
               child: const Icon(CupertinoIcons.person_alt_circle),
             ),
             trailing: Row(
@@ -62,7 +67,18 @@ class HomePage extends StatelessWidget {
                 ),
                 CupertinoButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () => Navigator.push(context, AddContactPage.route()),
+                  onPressed: () {
+                    if (!kDebugMode) {
+                      Navigator.push(context, AddContactPage.route());
+                    } else {
+                      try {
+                        OpenIM.iMManager.friendshipManager.addFriend(userID: 'openIMAdmin');
+                        SmartDialog.showToast('Add openIMAdmin success');
+                      } catch (_) {
+                        SmartDialog.showToast('Add openIMAdmin failed');
+                      }
+                    }
+                  },
                   child: const Icon(CupertinoIcons.add),
                 ),
               ],

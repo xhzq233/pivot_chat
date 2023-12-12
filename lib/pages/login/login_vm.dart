@@ -6,32 +6,48 @@ import 'package:pivot_chat/model/account.dart';
 import 'package:framework/logger.dart';
 
 import '../../im.dart';
-import '../home/home_page.dart';
 
 class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccount, String> {
-  LoginViewModel(BuildContext context) {
-    if (accountManager.current?.autologin == true) {
-      logger.i('', 'autologin with ${accountManager.current?.toJson()}');
-      press(accountManager.current!, context);
+  LoginViewModel({bool logout = false}) {
+    final cur = accountManager.current;
+    if (cur != null && cur.autologin == true && !logout) {
+      logger.i('', 'autologin with ${cur.toJson()}');
+      press(cur);
       return;
     }
-    accountManager.accountsStream.listen((event) {
+    accountManager.currentStream.listen((event) {
+      if (event == null) {
+        return;
+      }
+      assert(() {
+        final none = accountManager.others?.toList().indexWhere((t) => t.key == event.key) == -1;
+        assert(none, 'current account should not in others');
+        return true;
+      }());
+
+      if (_list.isEmpty) {
+        _list.add(event);
+      } else {
+        _list[0] = event;
+      }
+
+      notifyListeners();
+    });
+    accountManager.othersStream.listen((event) {
+      final cur = accountManager.current;
       _list.clear();
       _list.addAll(event);
+      if (cur != null) {
+        _list.insert(0, cur);
+      }
       notifyListeners();
     });
   }
 
-  final _list = accountManager.accounts?.toList() ?? [];
+  final _list = accountManager.all?.toList() ?? [];
 
   @override
   List<PCLocalAccount> get list => _list;
-
-  void increment(PCLocalAccount account) {
-    _list.add(account);
-    accountManager.add(account);
-    notifyListeners();
-  }
 
   void reorder(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) {
@@ -40,7 +56,7 @@ class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccoun
     final newState = _list;
     final account = newState.removeAt(oldIndex);
     newState.insert(newIndex, account);
-    accountManager.accounts = newState;
+    accountManager.others = newState;
     notifyListeners();
   }
 
@@ -56,15 +72,14 @@ class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccoun
     notifyListeners();
   }
 
-  void press(PCLocalAccount account, BuildContext context) async {
+  void press(PCLocalAccount account) async {
+    accountManager.changeCurrent(account);
     if (account.rememberPasswd == false) {
       SmartDialog.showToast('Goto passwd page');
       return;
     }
-    function() => Navigator.pushAndRemoveUntil(context, HomePage.route(account), (route) => false);
     SmartDialog.showLoading(msg: 'Login...');
     await loginIM();
     SmartDialog.dismiss();
-    function();
   }
 }

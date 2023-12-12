@@ -163,6 +163,9 @@ class MessageModel extends BaseItemModel<String> {
         return "[引用消息]";
       case MessageType.customFace:
         return "[表情消息]";
+      case MessageType.friendApplicationApprovedNotification:
+        return "[好友申请通过]";
+      // TODO: 消息类型
       default:
         return "暂不支持的消息类型";
     }

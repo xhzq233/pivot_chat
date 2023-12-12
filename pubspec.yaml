@@ -38,7 +38,7 @@ dependencies:
     git:
       url: https://github.com/xhzq233/modal_bottom_sheet.git
       path: modal_bottom_sheet
-      ref: release/v3.0.0
+      ref: a9485fec953eff584104b6e06c5658ee5d5649a7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

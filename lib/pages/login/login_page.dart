@@ -2,16 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/image/pc_network_image.dart';
 import '../new_account/new_account_page.dart';
 import 'login_vm.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  static Route<void> route() {
+  static Route<void> route({bool logout = false}) {
     return CupertinoPageRoute<void>(
       builder: (_) => ChangeNotifierProvider(
-        create: (context) => LoginViewModel(context),
+        create: (context) => LoginViewModel(logout: logout),
         child: const LoginPage(key: ValueKey('LoginPage')),
       ),
     );
@@ -45,17 +46,14 @@ class _LoginAccountsWidget extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = vm.list[index];
         return ListTile(
-          key: ValueKey(item),
+          key: ValueKey(item.key),
           title: Text(item.name),
-          leading: CircleAvatar(
-              child: item.userinfo.faceURL == null
-                  ? Text(item.name.substring(0, 1))
-                  : Image.network(item.userinfo.faceURL!)),
+          leading: CircleAvatar(child: PCNetworkImage(imageUrl: item.userinfo.faceURL ?? '')),
           trailing: IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => vm.decrement(item),
           ),
-          onTap: () => vm.press(item, context),
+          onTap: () => vm.press(item),
           selected: index == 0,
         );
       },

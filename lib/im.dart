@@ -12,12 +12,11 @@ import 'package:framework/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pivot_chat/manager/conv_publisher.dart';
 import 'package:pivot_chat/manager/msg_publisher.dart';
+import 'package:pivot_chat/pages/home/home_page.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
 
+import 'app.dart';
 import 'manager/account_manager.dart';
-
-//无context跳转的GlobalKey配置
-GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 Future<void> initIM() async {
   if (kIsWeb) return;
@@ -37,7 +36,7 @@ Future<void> initIM() async {
     // 数据存储路径。如：var apath =(await getApplicationDocumentsDirectory()).path
     objectStorage: 'minio',
     logFilePath: (await getApplicationDocumentsDirectory()).path,
-    logLevel: 6,
+    logLevel: 2,
     // 日志等级，默认值6
     listener: OnConnectListener(
       onConnectSuccess: () {
@@ -55,13 +54,13 @@ Future<void> initIM() async {
       onUserTokenExpired: () {
         // 登录凭证已经过期，请重新登录。
         SmartDialog.showToast('IM登录凭证已经过期，请重新登录');
-        navigatorKey.currentState?.pushAndRemoveUntil(LoginPage.route(), (Route<dynamic> route) => false);
+        navigator?.pushAndRemoveUntil(LoginPage.route(), (Route<dynamic> route) => false);
       },
       onKickedOffline: () {
         // 当前用户被踢下线，此时可以 UI
         // 提示用户“您已经在其他端登录了当前账号，是否重新登录？”
         SmartDialog.showToast('IM当前用户被踢下线');
-        navigatorKey.currentState?.pushAndRemoveUntil(LoginPage.route(), (Route<dynamic> route) => false);
+        navigator?.pushAndRemoveUntil(LoginPage.route(), (Route<dynamic> route) => false);
       },
     ),
   ) as bool;
@@ -72,7 +71,7 @@ Future<void> initIM() async {
 Future<void> loginIM() async {
   // Set listener
   OpenIM.iMManager
-    ..userManager.setUserListener(OnUserListener())
+    // ..userManager.setUserListener(OnUserListener())
     ..messageManager.setAdvancedMsgListener(messagePublisher)
     // Set up message sending progress listener
     ..messageManager.setMsgSendProgressListener(OnMsgSendProgressListener())
@@ -89,6 +88,11 @@ Future<void> loginIM() async {
     return;
   }
   final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);
+  accountManager.selfInfoUpdated(info);
+  navigator?.pushAndRemoveUntil(HomePage.route(account), (route) => false);
+}
 
-  logger.i('IM', info.toJson().toString());
+Future<void> logoutIM() async {
+  navigator?.pushAndRemoveUntil(LoginPage.route(logout: true), (Route<dynamic> route) => false);
+  await OpenIM.iMManager.logout();
 }

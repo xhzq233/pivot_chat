@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
   static Route<void> route() {
     return CupertinoPageRoute<void>(
       builder: (_) => ChangeNotifierProvider(
-        create: (context) => LoginViewModel(context),
+        create: (context) => LoginViewModel(),
         child: const LoginPage(key: ValueKey('LoginPage')),
       ),
     );
@@ -54,7 +54,7 @@ class _LoginAccountsWidget extends StatelessWidget {
             icon: const Icon(Icons.delete),
             onPressed: () => vm.decrement(item),
           ),
-          onTap: () => vm.press(item, context),
+          onTap: () => vm.press(item),
           selected: index == 0,
         );
       },

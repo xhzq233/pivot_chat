@@ -43,6 +43,19 @@ class PCLocalAccount extends BaseItemModel<String> {
 
   Map<String, dynamic> toJson() => _$PCLocalAccountToJson(this);
 
+  PCLocalAccount copyWith({
+    String? token,
+    bool? rememberPasswd,
+    bool? autologin,
+    UserInfo? userinfo,
+  }) =>
+      PCLocalAccount(
+        token: token ?? this.token,
+        rememberPasswd: rememberPasswd ?? this.rememberPasswd,
+        autologin: autologin ?? this.autologin,
+        userinfo: userinfo ?? this.userinfo,
+      );
+
   @override
   String get key => userinfo.userID ?? '';
 

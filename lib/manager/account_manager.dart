@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:pivot_chat/manager/network/token_getter.dart';
 import 'package:pivot_chat/manager/sp_manager.dart';
 import 'package:pivot_chat/model/account.dart';
@@ -8,12 +9,46 @@ import 'package:framework/logger.dart';
 final accountManager = PCAccountManager._();
 const _tag = 'ACCOUNT';
 
-class PCAccountManager with TokenGetter {
+class PCAccountManager extends OnUserListener with TokenGetter {
   PCAccountManager._() {
     logger.i(_tag, 'init');
+    OpenIM.iMManager.userManager.setUserListener(this);
   }
 
   static const _dataKeyIdName = "pc_accounts";
+
+  final _listeners = <OnUserListener>{};
+
+  void addListener(OnUserListener listener) {
+    _listeners.add(listener);
+  }
+
+  void removeListener(OnUserListener listener) {
+    _listeners.remove(listener);
+  }
+
+  @override
+  void selfInfoUpdated(UserInfo info) {
+    // update userinfo
+    final copy = accounts?.toList(growable: false);
+    if (copy != null && copy.isNotEmpty) {
+      copy[0] = copy.first.copyWith(userinfo: info);
+      accounts = copy;
+    }
+
+    for (var i in _listeners) {
+      i.selfInfoUpdated(info);
+    }
+  }
+
+  @override
+  void userStatusChanged(UserStatusInfo info) {
+    // TODO: implement userStatusChanged
+
+    for (var i in _listeners) {
+      i.userStatusChanged(info);
+    }
+  }
 
   PCLocalAccount? get current {
     return accounts?.firstOrNull;

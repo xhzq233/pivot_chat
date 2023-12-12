@@ -2,6 +2,7 @@
 /// Created by xhz on 11/9/23
 import 'package:flutter/foundation.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
+import 'package:pivot_chat/manager/account_manager.dart';
 
 /// 放在顶层是因为很多地方需要使用，需要扩大作用域。
 /// TODO: 监听每个用户状态的变化，比如用户的在线、信息等。
@@ -14,13 +15,13 @@ class AccountViewModel extends OnUserListener with ChangeNotifier {
 
   // 指定监听的用户ID，目前应该只有自己..
   AccountViewModel({required this.userID}) {
-    OpenIM.iMManager.userManager.setUserListener(this);
+    accountManager.addListener(this);
   }
 
   @override
   void dispose() {
     super.dispose();
-    OpenIM.iMManager.userManager.setUserListener(OnUserListener());
+    accountManager.removeListener(this);
   }
 
   @override

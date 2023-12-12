@@ -36,7 +36,7 @@ abstract mixin class PCBaseBoxManager<Key, ItemType> implements BaseCURD<Key, It
   bool opened = false;
 
   Future<void> init() async {
-    logger.i(tag, 'Init $runtimeType<$ItemType>');
+    logger.d(tag, 'Init $runtimeType<$ItemType>');
     if (opened) {
       return;
     }
@@ -47,34 +47,34 @@ abstract mixin class PCBaseBoxManager<Key, ItemType> implements BaseCURD<Key, It
   @override
   Future<void> delete({Key? key}) async {
     if (key == null) {
-      logger.i(tag, 'RemoveAll $ItemType');
+      logger.d(tag, 'RemoveAll $ItemType');
       await _box.clear();
     } else {
-      logger.i(tag, 'Remove $ItemType by key: $key');
+      logger.d(tag, 'Remove $ItemType by key: $key');
       await _box.delete(key);
     }
   }
 
   @override
   Future<void> add(ItemType item) {
-    logger.i(tag, 'Add $ItemType: $item');
+    logger.d(tag, 'Add $ItemType: $item');
     return _box.add(item);
   }
 
   @override
   ItemType? get(Key key) {
     final res = _box.get(key);
-    logger.i(tag, 'Get $ItemType: $res by key: $key');
+    logger.d(tag, 'Get $ItemType: $res by key: $key');
     return res;
   }
 
   @override
   Future<void> update(Key key, ItemType? item) {
     if (item != null) {
-      logger.i(tag, 'Update/Add $ItemType: $item by key: $key');
+      logger.d(tag, 'Update/Add $ItemType: $item by key: $key');
       return _box.put(key, item);
     } else {
-      logger.i(tag, 'Remove $ItemType by key: $key');
+      logger.d(tag, 'Remove $ItemType by key: $key');
       return _box.delete(key);
     }
   }
@@ -82,7 +82,7 @@ abstract mixin class PCBaseBoxManager<Key, ItemType> implements BaseCURD<Key, It
   @override
   Iterable<ItemType> get values {
     final values = _box.values;
-    logger.i(tag, 'GetAll $ItemType, values: $values');
+    logger.d(tag, 'GetAll $ItemType, values: $values');
     return values;
   }
 
@@ -93,12 +93,12 @@ abstract mixin class PCBaseBoxManager<Key, ItemType> implements BaseCURD<Key, It
 
 extension PCBaseBoxManagerExt<T extends BaseItemModel<Key>, Key> on PCBaseBoxManager<Key, T> {
   Future<void> put(T val) {
-    logger.i(PCBaseBoxManager.tag, 'Put $T: $val');
+    logger.d(PCBaseBoxManager.tag, 'Put $T: $val');
     return _box.put(val.key, val);
   }
 
   Future<void> putAll(Iterable<T> list) {
-    logger.i(PCBaseBoxManager.tag, 'PutAll $T: $list');
+    logger.d(PCBaseBoxManager.tag, 'PutAll $T: $list');
     return list.map((e) => _box.put(e.key, e)).wait;
   }
 }

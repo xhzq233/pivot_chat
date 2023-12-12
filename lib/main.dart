@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:framework/logger.dart';
 import 'package:framework/widgets.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -26,6 +27,7 @@ Future<void> _preLaunch() async {
   await Hive.initFlutter();
   Hive.registerAdapter(PCLocalAccountAdapter());
   Hive.registerAdapter(UserInfoAdapter());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent));
 
   final futures = <Future<void>>[initIM(), spManager.init()];
   await Future.wait(futures);

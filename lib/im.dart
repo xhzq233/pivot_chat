@@ -12,6 +12,7 @@ import 'package:framework/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pivot_chat/manager/conv_publisher.dart';
 import 'package:pivot_chat/manager/msg_publisher.dart';
+import 'package:pivot_chat/pages/home/home_page.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
 
 import 'app.dart';
@@ -88,4 +89,10 @@ Future<void> loginIM() async {
   }
   final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);
   accountManager.selfInfoUpdated(info);
+  navigator?.pushAndRemoveUntil(HomePage.route(account), (route) => false);
+}
+
+Future<void> logoutIM() async {
+  navigator?.pushAndRemoveUntil(LoginPage.route(logout: true), (Route<dynamic> route) => false);
+  await OpenIM.iMManager.logout();
 }

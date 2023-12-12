@@ -3,8 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:pivot_chat/manager/account_manager.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:pivot_chat/pages/add_contact/add_contact_page.dart';
 import 'package:pivot_chat/pages/todo_list/todo_page.dart';
@@ -12,8 +13,7 @@ import 'package:pivot_chat/view_model/account_view_model.dart';
 import 'package:pivot_chat/widgets/image/pc_network_image.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app.dart';
-import '../../login/login_page.dart';
+import '../../../im.dart';
 
 class PersonModal extends StatelessWidget {
   const PersonModal({super.key});
@@ -32,6 +32,8 @@ class PersonModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final person = context.watch<AccountViewModel>().user;
+    // TODO: need a ViewModel for listening the changes of accounts.
+    final accounts = accountManager.others;
     return CupertinoPageScaffold(
       child: CustomScrollView(
         slivers: [
@@ -53,22 +55,43 @@ class PersonModal extends StatelessWidget {
               ),
             ],
           ),
+          // Others' account
+          const SliverToBoxAdapter(
+            child: ListTile(
+              title: Text('Others'),
+            ),
+          ),
           SliverList(
-            delegate: SliverChildListDelegate([
-              ListTile(
-                title: const Text('Account'),
-                subtitle: Text(person.key),
-                leading: CircleAvatar(child: PCNetworkImage(imageUrl: person.userinfo.faceURL ?? '')),
-              ),
-              ListTile(
-                title: const Text('Logout'),
-                leading: const Icon(CupertinoIcons.power),
-                onTap: () async {
-                  await OpenIM.iMManager.logout();
-                  navigator?.pushAndRemoveUntil(LoginPage.route(), (Route<dynamic> route) => false);
-                },
-              ),
-            ]),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final account = accounts?.elementAtOrNull(index);
+                if (account == null) {
+                  return null;
+                }
+                return ListTile(
+                  title: Text(account.name),
+                  leading: CircleAvatar(
+                    child: PCNetworkImage(imageUrl: account.userinfo.faceURL ?? ''),
+                  ),
+                  onTap: () async {
+                    SmartDialog.showLoading();
+                    await logoutIM();
+                    accountManager.changeCurrent(account);
+                    await loginIM();
+
+                    SmartDialog.dismiss();
+                  },
+                );
+              },
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: ListTile(
+              title: Text('Logout'),
+              leading: Icon(CupertinoIcons.power),
+              selected: true,
+              onTap: logoutIM,
+            ),
           ),
         ],
       ),

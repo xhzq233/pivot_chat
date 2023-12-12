@@ -9,6 +9,12 @@ import 'package:framework/logger.dart';
 final accountManager = PCAccountManager._();
 const _tag = 'ACCOUNT';
 
+abstract mixin class UserListener {
+  void selfInfoUpdated(PCLocalAccount user) {}
+
+  void userStatusChanged(UserStatusInfo info) {}
+}
+
 class PCAccountManager extends OnUserListener with TokenGetter {
   PCAccountManager._() {
     logger.i(_tag, 'init');
@@ -17,13 +23,13 @@ class PCAccountManager extends OnUserListener with TokenGetter {
 
   static const _dataKeyIdName = "pc_accounts";
 
-  final _listeners = <OnUserListener>{};
+  final _listeners = <UserListener>{};
 
-  void addListener(OnUserListener listener) {
+  void addListener(UserListener listener) {
     _listeners.add(listener);
   }
 
-  void removeListener(OnUserListener listener) {
+  void removeListener(UserListener listener) {
     _listeners.remove(listener);
   }
 
@@ -34,10 +40,12 @@ class PCAccountManager extends OnUserListener with TokenGetter {
     if (copy != null && copy.isNotEmpty) {
       copy[0] = copy.first.copyWith(userinfo: info);
       accounts = copy;
-    }
 
-    for (var i in _listeners) {
-      i.selfInfoUpdated(info);
+      for (var i in _listeners) {
+        i.selfInfoUpdated(copy.first);
+      }
+    } else {
+      logger.w(_tag, 'selfInfoUpdated, but no account');
     }
   }
 

@@ -15,4 +15,3 @@ class SettingsPage extends StatelessWidget {
     return const Placeholder();
   }
 }
-

@@ -48,8 +48,7 @@ class _LoginAccountsWidget extends StatelessWidget {
         return ListTile(
           key: ValueKey(item.key),
           title: Text(item.name),
-          leading: CircleAvatar(
-              child: PCNetworkImage(imageUrl: item.userinfo.faceURL ?? '')),
+          leading: CircleAvatar(child: PCNetworkImage(imageUrl: item.userinfo.faceURL ?? '')),
           trailing: IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => vm.decrement(item),

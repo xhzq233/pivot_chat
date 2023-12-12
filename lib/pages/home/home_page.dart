@@ -1,11 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:framework/list.dart';
 import 'package:pivot_chat/model/account.dart';
-import 'package:pivot_chat/pages/add_contact/add_contact_page.dart';
 import 'package:pivot_chat/pages/home/person/person_modal.dart';
 import 'package:pivot_chat/pages/todo_list/todo_page.dart';
 import 'package:pivot_chat/view_model/account_view_model.dart';
@@ -61,59 +57,44 @@ class HomePage extends StatelessWidget {
                 ),
                 CupertinoButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {
-                    if (!kDebugMode) {
-                      Navigator.push(context, AddContactPage.route());
-                    } else {
-                      try {
-                        OpenIM.iMManager.friendshipManager.addFriend(userID: 'openIMAdmin');
-                        SmartDialog.showToast('Add openIMAdmin success');
-                      } catch (_) {
-                        SmartDialog.showToast('Add openIMAdmin failed');
-                      }
-                    }
-                  },
+                  onPressed: vm.toAddContact,
                   child: const Icon(CupertinoIcons.add),
                 ),
               ],
             ),
           ),
         ],
-        body: Stack(
-          children: [
-            BaseList(
-              itemBuilder: ConversationWidget.itemBuilder,
-              viewModel: context.read<ConversationListViewModel>()..conversationChanged([]),
-              primary: true,
-              topSliver: SliverToBoxAdapter(
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: CupertinoColors.systemGrey5.resolveFrom(context),
-                  ),
-                  child: NavigationLink(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    pressedColor: CupertinoColors.systemGrey4,
-                    onPressed: vm.search,
-                    child: Row(
-                      children: [
-                        Icon(CupertinoIcons.search, color: CupertinoColors.systemGrey.resolveFrom(context)),
-                        const SizedBox(width: 8),
-                        Text('Search',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: CupertinoColors.systemGrey.resolveFrom(context))),
-                        const Spacer(),
-                      ],
-                    ),
-                  ),
+        body: BaseList(
+          itemBuilder: ConversationWidget.itemBuilder,
+          viewModel: context.read<ConversationListViewModel>(),
+          primary: true,
+          topSliver: SliverToBoxAdapter(
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: CupertinoColors.systemGrey5.resolveFrom(context),
+              ),
+              child: NavigationLink(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                pressedColor: CupertinoColors.systemGrey4,
+                onPressed: vm.search,
+                child: Row(
+                  children: [
+                    Icon(CupertinoIcons.search, color: CupertinoColors.systemGrey.resolveFrom(context)),
+                    const SizedBox(width: 8),
+                    Text('Search',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(color: CupertinoColors.systemGrey.resolveFrom(context))),
+                    const Spacer(),
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

@@ -24,7 +24,7 @@ class PersonModal extends StatelessWidget {
       context: context,
       builder: (_) => ChangeNotifierProvider(
         create: (ctx) => AccountViewModel(userID: account_.key),
-        child: const PersonModal(key: ValueKey('HomePage')),
+        child: const PersonModal(),
       ),
     );
   }

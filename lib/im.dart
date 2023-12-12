@@ -35,7 +35,7 @@ Future<void> initIM() async {
     // 数据存储路径。如：var apath =(await getApplicationDocumentsDirectory()).path
     objectStorage: 'minio',
     logFilePath: (await getApplicationDocumentsDirectory()).path,
-    logLevel: 6,
+    logLevel: 2,
     // 日志等级，默认值6
     listener: OnConnectListener(
       onConnectSuccess: () {
@@ -70,7 +70,7 @@ Future<void> initIM() async {
 Future<void> loginIM() async {
   // Set listener
   OpenIM.iMManager
-    ..userManager.setUserListener(OnUserListener())
+    // ..userManager.setUserListener(OnUserListener())
     ..messageManager.setAdvancedMsgListener(messagePublisher)
     // Set up message sending progress listener
     ..messageManager.setMsgSendProgressListener(OnMsgSendProgressListener())
@@ -87,6 +87,5 @@ Future<void> loginIM() async {
     return;
   }
   final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);
-
-  logger.i('IM', info.toJson().toString());
+  accountManager.selfInfoUpdated(info);
 }

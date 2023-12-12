@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/image/pc_network_image.dart';
 import '../new_account/new_account_page.dart';
 import 'login_vm.dart';
 
@@ -48,9 +49,7 @@ class _LoginAccountsWidget extends StatelessWidget {
           key: ValueKey(item),
           title: Text(item.name),
           leading: CircleAvatar(
-              child: item.userinfo.faceURL == null
-                  ? Text(item.name.substring(0, 1))
-                  : Image.network(item.userinfo.faceURL!)),
+              child: PCNetworkImage(imageUrl: item.userinfo.faceURL ?? '')),
           trailing: IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => vm.decrement(item),

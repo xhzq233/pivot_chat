@@ -23,17 +23,14 @@ class HomePage extends StatelessWidget {
   static Route<void> route([PCLocalAccount? account]) {
     final PCLocalAccount account_ = account ?? PCLocalAccount.anonymous;
     return MaterialWithModalsPageRoute(
-      builder: (_) => Provider.value(
-        value: account_,
+      builder: (_) => Provider(
+        create: (context) => HomeViewModel(),
         child: Provider(
-          create: (context) => HomeViewModel(),
-          child: Provider(
-            create: (_) => ConversationListViewModel(),
-            dispose: (_, vm) => vm.dispose(),
-            child: ChangeNotifierProvider(
-              create: (ctx) => AccountViewModel(userID: account_.key),
-              child: const HomePage(key: ValueKey('HomePage')),
-            ),
+          create: (_) => ConversationListViewModel(),
+          dispose: (_, vm) => vm.dispose(),
+          child: ChangeNotifierProvider(
+            create: (ctx) => AccountViewModel(userID: account_.key),
+            child: const HomePage(key: ValueKey('HomePage')),
           ),
         ),
       ),
@@ -48,13 +45,10 @@ class HomePage extends StatelessWidget {
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
           CupertinoSliverNavigationBar(
-            largeTitle: Text(
-              context.read<PCLocalAccount>().name,
-              style: TextStyle(color: CupertinoColors.label.resolveFrom(context)),
-            ),
+            largeTitle: const _Title(),
             leading: CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => PersonModal.show(context, context.read<PCLocalAccount>()),
+              onPressed: () => PersonModal.show(context, context.read<AccountViewModel>().user),
               child: const Icon(CupertinoIcons.person_alt_circle),
             ),
             trailing: Row(
@@ -122,6 +116,19 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      // 单独提出，缩减build范围
+      context.watch<AccountViewModel>().user.name,
+      style: TextStyle(color: CupertinoColors.label.resolveFrom(context)),
     );
   }
 }

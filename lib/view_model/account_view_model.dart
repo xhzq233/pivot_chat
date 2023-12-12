@@ -17,7 +17,7 @@ class AccountViewModel with ChangeNotifier, UserListener {
 
   // 指定监听的用户ID，目前应该只有自己..
   AccountViewModel({required this.userID}) {
-    user = accountManager.accounts?.firstWhere((e) => e.key == userID) ?? PCLocalAccount.anonymous;
+    user = accountManager.current ?? PCLocalAccount.anonymous;
     accountManager.addListener(this);
   }
 

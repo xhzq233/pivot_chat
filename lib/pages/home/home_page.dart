@@ -125,9 +125,10 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 由于用CupertinoSliverNavigationBar会有Hero动画的问题，Overlay找不到对应Provider，所以需要AccountViewModel加上optional
     return Text(
       // 单独提出，缩减build范围
-      context.watch<AccountViewModel>().user.name,
+      context.watch<AccountViewModel?>()?.user.name ?? '',
       style: TextStyle(color: CupertinoColors.label.resolveFrom(context)),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:framework/list.dart';
+import 'package:pivot_chat/app.dart';
 import 'package:pivot_chat/manager/account_manager.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:framework/logger.dart';
@@ -9,12 +10,6 @@ import '../../im.dart';
 
 class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccount, String> {
   LoginViewModel({bool logout = false}) {
-    final cur = accountManager.current;
-    if (cur != null && cur.autologin == true && !logout) {
-      logger.i('', 'autologin with ${cur.toJson()}');
-      press(cur);
-      return;
-    }
     accountManager.currentStream.listen((event) {
       if (event == null) {
         return;
@@ -72,14 +67,11 @@ class LoginViewModel extends ChangeNotifier with BaseListViewModel<PCLocalAccoun
     notifyListeners();
   }
 
-  void press(PCLocalAccount account) async {
-    accountManager.changeCurrent(account);
+  static void login(PCLocalAccount account) async {
     if (account.rememberPasswd == false) {
       SmartDialog.showToast('Goto passwd page');
       return;
     }
-    SmartDialog.showLoading(msg: 'Login...');
-    await loginIM();
-    SmartDialog.dismiss();
+    navigator?.pushAndRemoveUntil(await loginIM(account), (_) => false);
   }
 }

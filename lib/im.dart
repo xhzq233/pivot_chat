@@ -1,6 +1,7 @@
 /// pivot_chat - im
 /// Created by xhz on 10/29/23
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -12,11 +13,14 @@ import 'package:framework/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pivot_chat/manager/conv_publisher.dart';
 import 'package:pivot_chat/manager/msg_publisher.dart';
+import 'package:pivot_chat/model/account.dart';
 import 'package:pivot_chat/pages/home/home_page.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
 
 import 'app.dart';
 import 'manager/account_manager.dart';
+
+final _loginFuture = Completer<bool>();
 
 Future<void> initIM() async {
   if (kIsWeb) return;
@@ -41,15 +45,14 @@ Future<void> initIM() async {
     listener: OnConnectListener(
       onConnectSuccess: () {
         // 已经成功连接到服务器
-        SmartDialog.showToast('IM已连接');
+        _loginFuture.complete(true);
       },
       onConnecting: () {
         // 正在连接到服务器，适合在 UI 上展示“正在连接”状态。
-        SmartDialog.showToast('IM正在连接');
       },
       onConnectFailed: (code, errorMsg) {
         // 连接服务器失败，可以提示用户当前网络连接不可用
-        SmartDialog.showToast('IM连接失败');
+        _loginFuture.completeError('IM连接失败');
       },
       onUserTokenExpired: () {
         // 登录凭证已经过期，请重新登录。
@@ -68,7 +71,12 @@ Future<void> initIM() async {
   if (!success) exit(-1);
 }
 
-Future<void> loginIM() async {
+bool _login = false;
+
+Future<Route<void>> loginIM(PCLocalAccount account) async {
+  if (_login) {
+    throw "";
+  }
   // Set listener
   OpenIM.iMManager
     // ..userManager.setUserListener(OnUserListener())
@@ -82,17 +90,27 @@ Future<void> loginIM() async {
     ..conversationManager.setConversationListener(conversationPublisher)
     // Set up group listener
     ..groupManager.setGroupListener(OnGroupListener());
-  final account = accountManager.current;
-  if (account == null || account.token == null) {
-    logger.e('IM', 'login when Account is null');
-    return;
+  accountManager.changeCurrent(account);
+  SmartDialog.showLoading(msg: 'Login...');
+  try {
+    final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);
+    accountManager.selfInfoUpdated(info);
+
+    await _loginFuture.future;
+
+    SmartDialog.dismiss(status: SmartStatus.loading);
+    _login = true;
+    return HomePage.route(account);
+  } catch (e) {
+    SmartDialog.dismiss(status: SmartStatus.loading);
+    logger.e('IM', 'login error', e);
+    SmartDialog.showToast('IM登录失败');
+    return LoginPage.route();
   }
-  final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);
-  accountManager.selfInfoUpdated(info);
-  navigator?.pushAndRemoveUntil(HomePage.route(account), (route) => false);
 }
 
 Future<void> logoutIM() async {
   navigator?.pushAndRemoveUntil(LoginPage.route(logout: true), (Route<dynamic> route) => false);
   await OpenIM.iMManager.logout();
+  _login = false;
 }

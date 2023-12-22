@@ -53,7 +53,7 @@ class _LoginAccountsWidget extends StatelessWidget {
             icon: const Icon(Icons.delete),
             onPressed: () => vm.decrement(item),
           ),
-          onTap: () => vm.press(item),
+          onTap: () => LoginViewModel.login(item),
           selected: index == 0,
         );
       },

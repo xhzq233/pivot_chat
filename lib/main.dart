@@ -7,6 +7,9 @@ import 'package:pivot_chat/app.dart';
 import 'package:pivot_chat/im.dart';
 import 'package:pivot_chat/manager/sp_manager.dart';
 import 'package:pivot_chat/model/account.dart';
+import 'package:pivot_chat/pages/login/login_page.dart';
+
+import 'manager/account_manager.dart';
 
 void main() async {
   runApp(const PreLaunch(
@@ -31,4 +34,11 @@ Future<void> _preLaunch() async {
 
   final futures = <Future<void>>[initIM(), spManager.init()];
   await Future.wait(futures);
+
+  final cur = accountManager.current;
+  if (cur != null && cur.autologin) {
+    PCApp.startRoute = await loginIM(cur);
+  } else {
+    PCApp.startRoute = LoginPage.route();
+  }
 }

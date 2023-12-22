@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:pivot_chat/app.dart';
 import 'package:pivot_chat/manager/account_manager.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:pivot_chat/pages/add_contact/add_contact_page.dart';
@@ -76,9 +77,7 @@ class PersonModal extends StatelessWidget {
                   onTap: () async {
                     SmartDialog.showLoading();
                     await logoutIM();
-                    accountManager.changeCurrent(account);
-                    await loginIM();
-
+                    navigator?.pushAndRemoveUntil(await loginIM(account), (_) => false);
                     SmartDialog.dismiss();
                   },
                 );

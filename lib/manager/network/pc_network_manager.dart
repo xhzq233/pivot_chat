@@ -63,16 +63,17 @@ class PCNetworkManager extends PCBaseNetworkManager {
         cmd: {"secret": "openIM123", "platformID": 1, "userID": uid},
       );
 
-  Future<OpenIMBaseResp<dynamic>?> register(String uid, String nickname) => sendOpenImRequest(
+  Future<OpenIMBaseResp<dynamic>?> register({required String uid,String nickname = 'unknown',
+      String faceUrl = "https://blog.xhzq.xyz/images/avatar.jpeg"}) =>
+      sendOpenImRequest(
         HttpMethodType.post,
         '/user/user_register',
         OpenIMTokenResp.fromJson,
         cmd: {
           "secret": "openIM123",
           "users": [
-            // TODO: Add faceURL
-            {"userID": uid, "nickname": nickname, "faceURL": "https://blog.xhzq.xyz/images/avatar.jpeg"}
-          ]
+            {"userID": uid, "nickname": nickname, "faceURL": faceUrl}
+          ],
         },
       );
 

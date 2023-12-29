@@ -42,8 +42,8 @@ class NewAccountViewModel with ChangeNotifier {
 
     if (resp!.code == 1101) {
       logger.i('NEW ACCOUNT', 'login: ID($id) not exist');
-      // TODO: 登陆页面加上选择nickname的文本框
-      final resp = await netWorkManager.register(id, 'nickname');
+      // TODO: 登陆页面加上选择nickname的文本框, Add faceURL
+      final resp = await netWorkManager.register(uid: id);
       if (!resp.check()) return;
       login(pop);
     } else {

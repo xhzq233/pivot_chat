@@ -10,12 +10,6 @@ part 'account.g.dart';
 @JsonSerializable(explicitToJson: true)
 @HiveType(typeId: 1)
 class PCLocalAccount extends BaseItemModel<String> {
-  static final anonymous = PCLocalAccount(
-    userinfo: UserInfo(userID: 'anonymous'),
-    rememberPasswd: false,
-    autologin: false,
-  );
-
   @JsonKey(name: 'token')
   @HiveField(0)
   final String? token;

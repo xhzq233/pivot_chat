@@ -4,6 +4,7 @@
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:framework/list.dart';
 import 'package:pivot_chat/manager/conv_publisher.dart';
+import 'package:pivot_chat/mock/api_available.dart';
 import 'package:pivot_chat/model/conversation_model.dart';
 
 /// 会话列表的ViewModel
@@ -23,11 +24,13 @@ class ConversationListViewModel with BaseListViewModel<ConversationModel, String
   }
 
   void _init() async {
-    list.addAll(
-      (await OpenIM.iMManager.conversationManager.getAllConversationList()).map(
-        (e) => ConversationModel(e),
-      ),
-    );
+    if (!apiAvailable) return;
+
+    replaceList((await OpenIM.iMManager.conversationManager.getAllConversationList())
+        .map(
+          (e) => ConversationModel(e),
+        )
+        .toList(growable: false));
     conversationPublisher.addListReceiver(this);
   }
 

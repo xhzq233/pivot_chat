@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:pivot_chat/manager/account_manager.dart';
+import 'package:pivot_chat/mock/anonymous_account.dart';
 
 import '../model/account.dart';
 
@@ -17,7 +18,7 @@ class AccountViewModel with ChangeNotifier, UserListener {
 
   // 指定监听的用户ID，目前应该只有自己..
   AccountViewModel({required this.userID}) {
-    user = accountManager.current ?? PCLocalAccount.anonymous;
+    user = accountManager.current ?? kAnonymousAccount;
     accountManager.addListener(this);
   }
 

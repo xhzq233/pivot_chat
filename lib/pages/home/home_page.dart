@@ -19,8 +19,7 @@ import 'home_vm.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  static Route<void> route([PCLocalAccount? account]) {
-    final PCLocalAccount account_ = account ?? PCLocalAccount.anonymous;
+  static Route<void> route({required PCLocalAccount account}) {
     return MaterialWithModalsPageRoute(
       builder: (_) => Provider(
         create: (context) => HomeViewModel(),
@@ -30,7 +29,7 @@ class HomePage extends StatelessWidget {
           child: Provider(
             create: (context) => ContactsViewModel(),
             child: ChangeNotifierProvider(
-              create: (ctx) => AccountViewModel(userID: account_.key),
+              create: (ctx) => AccountViewModel(userID: account.key),
               child: const HomePage(key: ValueKey('HomePage')),
             ),
           ),
@@ -76,7 +75,7 @@ class _Home extends StatelessWidget {
           largeTitle: const _Title(),
           leading: CupertinoButton(
             padding: EdgeInsets.zero,
-            onPressed: () => PersonModal.show(context, context.read<AccountViewModel>().user),
+            onPressed: () => PersonModal.show(context, account: context.read<AccountViewModel>().user),
             child: const Icon(CupertinoIcons.person_alt_circle),
           ),
           trailing: Row(

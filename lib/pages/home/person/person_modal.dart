@@ -19,12 +19,11 @@ import '../../../im.dart';
 class PersonModal extends StatelessWidget {
   const PersonModal({super.key});
 
-  static void show(BuildContext context, [PCLocalAccount? account]) {
-    final PCLocalAccount account_ = account ?? PCLocalAccount.anonymous;
+  static void show(BuildContext context, {required PCLocalAccount account}) {
     showCupertinoModalBottomSheet(
       context: context,
       builder: (_) => ChangeNotifierProvider(
-        create: (ctx) => AccountViewModel(userID: account_.key),
+        create: (ctx) => AccountViewModel(userID: account.key),
         child: const PersonModal(),
       ),
     );
@@ -65,7 +64,7 @@ class PersonModal extends StatelessWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                final account = accounts?.elementAtOrNull(index);
+                final account = accounts.elementAtOrNull(index);
                 if (account == null) {
                   return null;
                 }

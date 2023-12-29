@@ -5,7 +5,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -13,6 +12,7 @@ import 'package:framework/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pivot_chat/manager/conv_publisher.dart';
 import 'package:pivot_chat/manager/msg_publisher.dart';
+import 'package:pivot_chat/mock/api_available.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:pivot_chat/pages/home/home_page.dart';
 import 'package:pivot_chat/pages/login/login_page.dart';
@@ -23,10 +23,7 @@ import 'manager/account_manager.dart';
 final _loginFuture = Completer<bool>();
 
 Future<void> initIM() async {
-  if (kIsWeb) return;
-  if (!Platform.isIOS && !Platform.isAndroid) {
-    return;
-  }
+  if (!apiAvailable) return;
 
   final success = await OpenIM.iMManager.initSDK(
     // platformID: Platform.isIOS ? IMPlatform.ios : IMPlatform.android,
@@ -77,32 +74,30 @@ Future<Route<void>> loginIM(PCLocalAccount account) async {
   if (_login) {
     throw "";
   }
-  // Set listener
-  OpenIM.iMManager
-    // ..userManager.setUserListener(OnUserListener())
-    ..messageManager.setAdvancedMsgListener(messagePublisher)
-    // Set up message sending progress listener
-    ..messageManager.setMsgSendProgressListener(OnMsgSendProgressListener())
-    // ..messageManager.setCustomBusinessListener(OnCustomBusinessListener())
-    // Set up friend relationship listener
-    ..friendshipManager.setFriendshipListener(OnFriendshipListener())
-    // Set up conversation listener
-    ..conversationManager.setConversationListener(conversationPublisher)
-    // Set up group listener
-    ..groupManager.setGroupListener(OnGroupListener());
+
+  if (apiAvailable) {
+    OpenIM.iMManager
+      // ..userManager.setUserListener(OnUserListener())
+      ..messageManager.setAdvancedMsgListener(messagePublisher)
+      ..messageManager.setMsgSendProgressListener(OnMsgSendProgressListener())
+      // ..messageManager.setCustomBusinessListener(OnCustomBusinessListener())
+      ..friendshipManager.setFriendshipListener(OnFriendshipListener())
+      ..conversationManager.setConversationListener(conversationPublisher)
+      ..groupManager.setGroupListener(OnGroupListener());
+  }
   accountManager.changeCurrent(account);
-  SmartDialog.showLoading(msg: 'Login...');
+
   try {
-    final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);
-    accountManager.selfInfoUpdated(info);
+    if (apiAvailable) {
+      final info = await OpenIM.iMManager.login(userID: account.key, token: account.token!);
+      accountManager.selfInfoUpdated(info);
 
-    await _loginFuture.future;
+      await _loginFuture.future;
+    }
 
-    SmartDialog.dismiss(status: SmartStatus.loading);
     _login = true;
-    return HomePage.route(account);
+    return HomePage.route(account: account);
   } catch (e) {
-    SmartDialog.dismiss(status: SmartStatus.loading);
     logger.e('IM', 'login error', e);
     SmartDialog.showToast('IM登录失败');
     return LoginPage.route();
@@ -111,6 +106,8 @@ Future<Route<void>> loginIM(PCLocalAccount account) async {
 
 Future<void> logoutIM() async {
   navigator?.pushAndRemoveUntil(LoginPage.route(logout: true), (Route<dynamic> route) => false);
-  await OpenIM.iMManager.logout();
+  if (apiAvailable) {
+    await OpenIM.iMManager.logout();
+  }
   _login = false;
 }

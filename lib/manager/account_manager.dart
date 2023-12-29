@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:pivot_chat/manager/network/token_getter.dart';
 import 'package:pivot_chat/manager/sp_manager.dart';
+import 'package:pivot_chat/mock/anonymous_account.dart';
+import 'package:pivot_chat/mock/api_available.dart';
 import 'package:pivot_chat/model/account.dart';
 import 'package:framework/logger.dart';
 
@@ -18,7 +20,11 @@ abstract mixin class UserListener {
 class PCAccountManager extends OnUserListener with TokenGetter {
   PCAccountManager._() {
     logger.i(_tag, 'init');
-    OpenIM.iMManager.userManager.setUserListener(this);
+    if (apiAvailable) {
+      OpenIM.iMManager.userManager.setUserListener(this);
+    } else if (current == null && others.isEmpty) {
+      add(kAnonymousAccount);
+    }
   }
 
   static const _othersDataKey = "pc_account_others";
@@ -76,7 +82,7 @@ class PCAccountManager extends OnUserListener with TokenGetter {
       return;
     }
 
-    final others = this.others?.toList() ?? [];
+    final others = this.others.toList();
     final index = others.indexWhere((element) => element.key == account.key);
     if (index == -1) {
       logger.w(_tag, 'Change current $PCLocalAccount: $account, not found');
@@ -96,9 +102,9 @@ class PCAccountManager extends OnUserListener with TokenGetter {
     return current?.key == account.key;
   }
 
-  Iterable<PCLocalAccount>? get others {
+  Iterable<PCLocalAccount> get others {
     final String? json = spManager.getVal(_othersDataKey);
-    return _json2accounts(json);
+    return _json2accounts(json) ?? [];
   }
 
   set others(Iterable<PCLocalAccount>? accounts) => spManager.setVal(_othersDataKey, jsonEncode(accounts));
@@ -106,7 +112,7 @@ class PCAccountManager extends OnUserListener with TokenGetter {
   Iterable<PCLocalAccount>? get all {
     final cur = current;
     if (cur == null) return others;
-    return [cur, ...others ?? []];
+    return [cur, ...others];
   }
 
   Stream<Iterable<PCLocalAccount>> get othersStream =>
@@ -122,7 +128,7 @@ class PCAccountManager extends OnUserListener with TokenGetter {
 
   void add(PCLocalAccount account) {
     logger.i(_tag, 'Add $PCLocalAccount: $account');
-    final accounts = others?.toList() ?? [];
+    final accounts = others.toList();
     assert(accounts.indexWhere((element) => element.key == account.key) == -1, 'Account already exists');
     accounts.add(account);
     others = accounts;
@@ -135,7 +141,7 @@ class PCAccountManager extends OnUserListener with TokenGetter {
       spManager.setVal(_currentDataKey, null);
       return;
     }
-    final accounts = others?.toList() ?? [];
+    final accounts = others.toList();
     final index = accounts.indexWhere((element) => element.key == key);
     if (index == -1) {
       logger.w(_tag, 'Remove $PCLocalAccount by key: $key, not found');
